@@ -2,9 +2,16 @@
 .formbuilder .selected {
   background: #f6f5f7;
 }
+.formbuilder form .form-group.selected:hover, .formbuilder form .form-group.selected {
+  border: 1px solid #ddd;
+}
 .formbuilder form .form-group {
+  border: 1px solid transparent;
   margin-bottom: 0px;
-  padding: 10px;
+  padding: 9px;
+}
+.formbuilder form .form-group:hover {
+  border: 1px dashed #333;
 }
 
 .control-panel .control-panel-content {
