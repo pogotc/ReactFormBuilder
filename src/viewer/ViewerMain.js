@@ -35,6 +35,7 @@ class ViewerMain extends Component {
                     formData={this.state.formData} 
                     availableFieldTypes={this.availableFieldTypes}
                     onFormSubmit={this.handleFormSubmission}
+                    isReadOnly="false"
                 />
             </div>
         )

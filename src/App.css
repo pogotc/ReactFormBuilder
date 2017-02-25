@@ -12,6 +12,11 @@
 }
 .formbuilder form .form-group:hover {
   border: 1px dashed #333;
+  cursor: pointer;
+}
+.formbuilder form .form-control:disabled {
+  background-color: #fff;
+  cursor: pointer;
 }
 
 .control-panel .control-panel-content {

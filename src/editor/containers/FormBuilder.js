@@ -129,6 +129,7 @@ class FormBuilder extends Component {
                             formData={this.state.formData} 
                             selectFieldHandler={this.startEditingElement} 
                             availableFieldTypes={this.availableFieldTypes}
+                            isReadOnly="true"
                         />
                         <div className={this.state.formData.length > 0 ? "hidden" : ""}>
                             <button className="btn btn-primary" onClick={() => this.selectControlPanelTab('AddField')}>Add new field</button>
