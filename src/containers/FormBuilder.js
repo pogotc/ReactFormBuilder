@@ -14,9 +14,11 @@ class FormBuilder extends Component {
             activeControlPanelTab: "AddField",
             fieldBeingEdited: {label: ""}
         }
+        this.markFieldAsBeingEdited = this.markFieldAsBeingEdited.bind(this);
         this.startEditingElement = this.startEditingElement.bind(this);
         this.selectControlPanelTab = this.selectControlPanelTab.bind(this);
         this.updateFormDataField = this.updateFormDataField.bind(this);
+        this.createNewFieldOfType = this.createNewFieldOfType.bind(this);
     }
 
     componentDidMount() {
@@ -30,7 +32,7 @@ class FormBuilder extends Component {
 		});
     }
 
-    startEditingElement(elementId) {
+    markFieldAsBeingEdited(elementId) {
         var fieldBeingEdited = undefined;
         var newFormData = this.state.formData.map((fieldData) => {
             fieldData.isSelected = fieldData.id === elementId;
@@ -41,13 +43,17 @@ class FormBuilder extends Component {
             return fieldData;
         });
 
-
-
         this.setState({
             formData: newFormData,
             fieldBeingEdited: fieldBeingEdited
         });
-        this.selectControlPanelTab("EditField");
+    }
+
+    startEditingElement(elementId) {
+        this.markFieldAsBeingEdited(elementId);
+        this.setState({
+            activeControlPanelTab: "EditField"
+        });
     }
 
     selectControlPanelTab(tabName) {
@@ -59,6 +65,8 @@ class FormBuilder extends Component {
             this.setState({
                 formData: newFormData,
             });
+        } else {
+            this.markFieldAsBeingEdited(this.state.formData[0].id);
         }
 
         this.setState({
@@ -70,6 +78,19 @@ class FormBuilder extends Component {
         var newFormData = this.state.formData.map((fieldData) => {
             return newFieldData.id === fieldData.id ? newFieldData : fieldData;
         });
+        this.setState({
+            formData: newFormData,
+        });
+    }
+
+    createNewFieldOfType(fieldType) {
+        let newField = {
+            label: 'Untitled',
+            type: fieldType,
+            id: Math.floor(Math.random() * 10000)
+        };
+        let newFormData = this.state.formData;
+        newFormData.push(newField);
         this.setState({
             formData: newFormData,
         });
@@ -96,6 +117,7 @@ class FormBuilder extends Component {
                             fieldBeingEdited={this.state.fieldBeingEdited}
                             availableFieldTypes={this.availableFieldTypes}
                             onFieldUpdate={this.updateFormDataField}
+                            onFieldCreate={this.createNewFieldOfType}
                         />
                     </div>
                     <div className="col-md-8">
@@ -104,7 +126,7 @@ class FormBuilder extends Component {
                             selectFieldHandler={this.startEditingElement} 
                             availableFieldTypes={this.availableFieldTypes}
                         />
-                        <div>
+                        <div className="hidden">
                             <button className="btn btn-primary">Add new field</button>
                         </div>
                     </div>

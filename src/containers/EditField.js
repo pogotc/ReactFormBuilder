@@ -6,10 +6,11 @@ class EditField extends Component {
         super(props);
         this.handleFieldNameEdit = this.handleFieldNameEdit.bind(this);
         this.handleFieldTypeEdit = this.handleFieldTypeEdit.bind(this);
+        this.handleFieldUpdate = this.handleFieldUpdate.bind(this);
     }
 
     handleFieldNameEdit(e) {
-        this.handleFieldUpdate("type", e.target.value);
+        this.handleFieldUpdate("label", e.target.value);
     }
 
     handleFieldTypeEdit(e) {
@@ -19,7 +20,6 @@ class EditField extends Component {
     handleFieldUpdate(fieldName, newValue) {
         var newField = this.props.fieldBeingEdited;
         newField[fieldName] = newValue;
-        
         if (this.props.onFieldUpdate) {
             this.props.onFieldUpdate(newField);
         }

@@ -28,7 +28,11 @@ class ControlPanel extends Component {
                     <li role="presentation" className={this.props.activeTab === 'EditField' ? 'active' : ''}><a href="#" onClick={() => this.selectTab('EditField')}>Field Settings</a></li>
                     <li role="presentation" className={this.props.activeTab === 'FormSettings' ? 'active' : ''}><a href="#" onClick={() => this.selectTab('FormSettings')}>Form Settings</a></li>
                 </ul>
-                <AddField active={this.props.activeTab === 'AddField'} />
+                <AddField 
+                    active={this.props.activeTab === 'AddField'} 
+                    availableFieldTypes={this.props.availableFieldTypes}
+                    onFieldCreate={this.props.onFieldCreate}
+                />
                 <EditField 
                     active={this.props.activeTab === 'EditField'} 
                     fieldBeingEdited={this.props.fieldBeingEdited}
