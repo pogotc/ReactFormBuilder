@@ -32,6 +32,7 @@ class ControlPanel extends Component {
                 <EditField 
                     active={this.props.activeTab === 'EditField'} 
                     fieldBeingEdited={this.props.fieldBeingEdited}
+                    availableFieldTypes={this.props.availableFieldTypes}
                     onFieldUpdate={this.props.onFieldUpdate}
                 />
                 <FormSettings active={this.props.activeTab === 'FormSettings'}/>

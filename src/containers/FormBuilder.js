@@ -5,6 +5,8 @@ import ControlPanel from './ControlPanel';
 
 class FormBuilder extends Component {
 
+    availableFieldTypes = ["TextField", "TextArea"];
+
     constructor(props) {
         super(props);
         this.state = {
@@ -20,10 +22,10 @@ class FormBuilder extends Component {
     componentDidMount() {
         this.setState({
 			formData: [
-				{id: "1", name: "TextField", label: "Name"},
-				{id: "2", name: "TextField", label: "Email"},
-				{id: "3", name: "TextField", label: "Age"},
-				{id: "4", name: "TextArea",  label: "Comments"}
+				{id: "1", type: "TextField", label: "Name"},
+				{id: "2", type: "TextField", label: "Email"},
+				{id: "3", type: "TextField", label: "Age"},
+				{id: "4", type: "TextArea", label: "Comments"}
 			]
 		});
     }
@@ -66,7 +68,7 @@ class FormBuilder extends Component {
 
     updateFormDataField(newFieldData) {
         var newFormData = this.state.formData.map((fieldData) => {
-            return newFieldData.id == fieldData.id ? newFieldData : fieldData;
+            return newFieldData.id === fieldData.id ? newFieldData : fieldData;
         });
         this.setState({
             formData: newFormData,
@@ -92,11 +94,16 @@ class FormBuilder extends Component {
                             activeTab={this.state.activeControlPanelTab} 
                             onTabClick={this.selectControlPanelTab}
                             fieldBeingEdited={this.state.fieldBeingEdited}
+                            availableFieldTypes={this.availableFieldTypes}
                             onFieldUpdate={this.updateFormDataField}
                         />
                     </div>
                     <div className="col-md-8">
-                        <FormRenderer formData={this.state.formData} selectFieldHandler={this.startEditingElement} />
+                        <FormRenderer 
+                            formData={this.state.formData} 
+                            selectFieldHandler={this.startEditingElement} 
+                            availableFieldTypes={this.availableFieldTypes}
+                        />
                         <div>
                             <button className="btn btn-primary">Add new field</button>
                         </div>

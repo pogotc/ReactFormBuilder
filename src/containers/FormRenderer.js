@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 
 class FormRenderer extends Component {
 
-    availableFields = ["TextField", "TextArea"];
     elementMap = {};
 
     constructor(props) {
         super(props);
 
-        this.availableFields.forEach((field) => {
+        props.availableFieldTypes.forEach((field) => {
             this.elementMap[field] = require('../components/FormElements/' + field).default;
         });
         this.handleClick = this.handleClick.bind(this);
@@ -22,7 +21,7 @@ class FormRenderer extends Component {
 
     render() {
         let formFields = this.props.formData.map((fieldData, idx) => {
-            let FieldType = this.elementMap[fieldData.name];
+            let FieldType = this.elementMap[fieldData.type];
             return <FieldType label={fieldData.label} isSelected={fieldData.isSelected} id={fieldData.id} key={idx} onClick={this.handleClick}/>
         });
 
