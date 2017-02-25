@@ -30,18 +30,23 @@ class EditField extends Component {
             return <option value={fieldTypeName} key={i}>{fieldTypeName}</option>;
         });
 
+        var fieldIsSelected = this.props.fieldBeingEdited.id !== undefined;
+        
         return (
             <div className={!this.props.active ? 'hidden' :''}>
-                <div className="form-group">
-                    <label>Field Label</label>
-                    <input type="text" className="form-control" value={this.props.fieldBeingEdited.label} onChange={this.handleFieldNameEdit}/> 
-                </div>
-                <div className="form-group">
-                    <label>Field Type</label>
-                    <select className="form-control" value={this.props.fieldBeingEdited.type} onChange={this.handleFieldTypeEdit}>
-                        <option>Select field type</option>
-                        {FieldTypeOptions}
-                    </select>
+                <p className={fieldIsSelected ? 'hidden' : ''}>No field selected</p>
+                <div className={!fieldIsSelected ? 'hidden' : ''}>
+                    <div className="form-group">
+                        <label>Field Label</label>
+                        <input type="text" className="form-control" value={this.props.fieldBeingEdited.label} onChange={this.handleFieldNameEdit}/> 
+                    </div>
+                    <div className="form-group">
+                        <label>Field Type</label>
+                        <select className="form-control" value={this.props.fieldBeingEdited.type} onChange={this.handleFieldTypeEdit}>
+                            <option>Select field type</option>
+                            {FieldTypeOptions}
+                        </select>
+                    </div>
                 </div>
             </div>
         )

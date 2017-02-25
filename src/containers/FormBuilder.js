@@ -66,7 +66,9 @@ class FormBuilder extends Component {
                 formData: newFormData,
             });
         } else {
-            this.markFieldAsBeingEdited(this.state.formData[0].id);
+            if (this.state.formData.length) {
+                this.markFieldAsBeingEdited(this.state.formData[0].id);
+            }
         }
 
         this.setState({
@@ -126,8 +128,8 @@ class FormBuilder extends Component {
                             selectFieldHandler={this.startEditingElement} 
                             availableFieldTypes={this.availableFieldTypes}
                         />
-                        <div className="hidden">
-                            <button className="btn btn-primary">Add new field</button>
+                        <div className={this.state.formData.length > 0 ? "hidden" : ""}>
+                            <button className="btn btn-primary" onClick={() => this.selectControlPanelTab('AddField')}>Add new field</button>
                         </div>
                     </div>
                 </div>
