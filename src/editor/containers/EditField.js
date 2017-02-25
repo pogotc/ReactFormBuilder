@@ -33,7 +33,7 @@ class EditField extends Component {
         var fieldIsSelected = this.props.fieldBeingEdited.id !== undefined;
         
         return (
-            <div className={!this.props.active ? 'hidden' :''}>
+            <div className={'control-panel-content ' + (!this.props.active ? 'hidden' :'')}>
                 <p className={fieldIsSelected ? 'hidden' : ''}>No field selected</p>
                 <div className={!fieldIsSelected ? 'hidden' : ''}>
                     <div className="form-group">

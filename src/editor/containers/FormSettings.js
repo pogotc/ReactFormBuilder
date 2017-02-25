@@ -4,7 +4,7 @@ class FormSettings extends Component {
 
     render() {
         return (
-            <div className={!this.props.active ? 'hidden' :''}>
+            <div className={'control-panel-content ' + (!this.props.active ? 'hidden' :'')}>
                 Form Settings
             </div>
         )

@@ -25,9 +25,14 @@ class FormRenderer extends Component {
             return <FieldType label={fieldData.label} isSelected={fieldData.isSelected} id={fieldData.id} key={idx} onClick={this.handleClick}/>
         });
 
+        if (this.props.onFormSubmit) {
+            formFields.push(<button className="btn btn-primary" key="submit-btn">Submit</button>);
+        }
+
         return (
             <form>
                 { formFields }
+
             </form>
         )
     }

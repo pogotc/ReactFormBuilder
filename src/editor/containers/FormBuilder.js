@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import FormRenderer from './FormRenderer';
 import ControlPanel from './ControlPanel';
+import '../../index.css';
+import '../../App.css';
 
 class FormBuilder extends Component {
 
