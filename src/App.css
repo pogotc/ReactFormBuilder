@@ -18,6 +18,24 @@
   background-color: #fff;
   cursor: pointer;
 }
+.formbuilder h2 {
+  border: 1px solid transparent;
+  cursor: pointer;
+  margin-top: 5px;
+  padding: 7px;
+}
+.formbuilder h2:hover {
+  border: 1px dashed #333;
+  cursor: pointer;
+}
+.formbuilder h2.selected, .formbuilder h2.selected:hover {
+  background: #f6f5f7;
+  border: 1px solid #ddd;
+}
+
+.formbuilder .form-header button {
+  margin-right: 10px;
+}
 
 .control-panel .control-panel-content {
   border-left: 1px solid #ddd;

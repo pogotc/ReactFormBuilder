@@ -39,7 +39,11 @@ class ControlPanel extends Component {
                     availableFieldTypes={this.props.availableFieldTypes}
                     onFieldUpdate={this.props.onFieldUpdate}
                 />
-                <FormSettings active={this.props.activeTab === 'FormSettings'}/>
+                <FormSettings 
+                    active={this.props.activeTab === 'FormSettings'}
+                    formName={this.props.formData.name}
+                    onFormNameUpdate={this.props.onFormNameUpdate}
+                />
             </div>
         )
     }

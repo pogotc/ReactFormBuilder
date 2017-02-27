@@ -24,17 +24,19 @@ class FormBuilder extends Component {
 
         this.markFieldAsBeingEdited = this.markFieldAsBeingEdited.bind(this);
         this.startEditingElement = this.startEditingElement.bind(this);
+        this.startEditingFormName = this.startEditingFormName.bind(this);
         this.selectControlPanelTab = this.selectControlPanelTab.bind(this);
         this.updateFormDataField = this.updateFormDataField.bind(this);
         this.createNewFieldOfType = this.createNewFieldOfType.bind(this);
         this.saveForm = this.saveForm.bind(this);
+        this.updateFormName = this.updateFormName.bind(this);
+        this.deselectAllFields = this.deselectAllFields.bind(this);
     }
 
     componentDidMount() {
         this.formManager.fetchById(this.props.params.id)
             .then((response) => {
                 var formData = response.data;
-                console.log(formData);
                 this.setState({
 			        formData: formData
                 });
@@ -89,13 +91,24 @@ class FormBuilder extends Component {
         });
     }
 
+    startEditingFormName() {
+        this.deselectAllFields();
+        this.setState({
+            activeControlPanelTab: "FormSettings"
+        });
+    }
+
+    deselectAllFields() {
+        var newFieldData = this.state.formData.fields.map((fieldData) => {
+            fieldData.isSelected = false;
+            return fieldData;
+        });
+        this.updateFieldsState(newFieldData);
+    }
+
     selectControlPanelTab(tabName) {
         if (tabName !== "EditField") {
-            var newFieldData = this.state.formData.fields.map((fieldData) => {
-                fieldData.isSelected = false;
-                return fieldData;
-            });
-            this.updateFieldsState(newFieldData);
+            this.deselectAllFields();
         } else {
             if (this.state.formData.fields.length) {
                 this.markFieldAsBeingEdited(this.state.formData.fields[0].id);
@@ -114,6 +127,14 @@ class FormBuilder extends Component {
         this.updateFieldsState(newFormFieldData);
     }
 
+    updateFormName(e) {
+        let formData = this.state.formData;
+        formData.name = e.target.value;
+        this.setState({
+            formData: formData
+        });
+    }
+
     createNewFieldOfType(fieldType) {
         let newField = {
             label: 'Untitled',
@@ -129,14 +150,12 @@ class FormBuilder extends Component {
     render() {
         return (
             <div className="formbuilder">
-                <div className="form-header">
+                <div className="row form-header">
                     <div className="pull-right">
                         <button className="btn btn-default">Submission Rules</button>
                         <button className="btn btn-default">Embed</button>
                         <button className="btn btn-primary" onClick={this.saveForm}>{this.state.isSaving ? "Saving" : "Save"}</button>
                     </div>
-
-                    <h2>{this.state.formData.name}</h2>
                 </div>
 
                 <div className="row">
@@ -148,13 +167,17 @@ class FormBuilder extends Component {
                             availableFieldTypes={this.availableFieldTypes}
                             onFieldUpdate={this.updateFormDataField}
                             onFieldCreate={this.createNewFieldOfType}
+                            formData={this.state.formData}
+                            onFormNameUpdate={this.updateFormName}
                         />
                     </div>
                     <div className="col-md-8">
                         <FormRenderer 
-                            formData={this.state.formData.fields} 
+                            formData={this.state.formData} 
                             selectFieldHandler={this.startEditingElement} 
+                            selectFormNameHandler={this.startEditingFormName}
                             availableFieldTypes={this.availableFieldTypes}
+                            selectFormName={this.state.activeControlPanelTab === 'FormSettings'}
                             isReadOnly="true"
                         />
                         <div className={this.state.formData.fields && this.state.formData.fields.length > 0 ? "hidden" : ""}>
