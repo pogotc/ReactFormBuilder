@@ -13,7 +13,7 @@ var routes = (
 		    <Route path="edit/:id" component={FormBuilder} />
             <Route path="list" component={ListForms} />
         </Route>
-        <Route path="/view" component={ViewerMain} />
+        <Route path="/view/:id" component={ViewerMain} />
 	</Router>
 );
 

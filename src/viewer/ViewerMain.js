@@ -1,27 +1,32 @@
 import React, { Component } from 'react';
-
+import FormManager from '../editor/lib/FormManager';
 import FormRenderer from '../editor/containers/FormRenderer';
 
 class ViewerMain extends Component {
 
     availableFieldTypes = ["TextField", "TextArea"];
+    formManager;
 
     constructor(props) {
         super(props);
         this.state = {
-            formData: []
+            formData: {name: "", fields:[]}
         };
+
+        this.formManager = new FormManager("https://tessituraproxy.site/formbuilder/made1");
     }
 
     componentDidMount() {
-        this.setState({
-			formData: [
-				{id: "1", type: "TextField", label: "Name"},
-				{id: "2", type: "TextField", label: "Email"},
-				{id: "3", type: "TextField", label: "Age"},
-				{id: "4", type: "TextArea", label: "Comments"}
-			]
-		});
+        this.formManager.fetchById(this.props.params.id)
+            .then((response) => {
+                var formData = response.data;
+                this.setState({
+			        formData: formData
+                });
+            })
+            .catch((err) => {
+                console.log(err);  
+            });
     }
 
     handleFormSubmission() {

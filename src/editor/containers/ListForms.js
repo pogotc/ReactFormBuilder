@@ -45,6 +45,7 @@ class ListForms extends Component {
         let formElems = this.state.forms.map((form, i) => {
             return <tr key={i}>
                         <td>{form.formData.name}</td>
+                        <td><Link to={'/view/' + form.id} target="_blank">View</Link></td>
                         <td><Link to={'/editor/edit/' + form.id}>Edit</Link></td>
                     </tr>
         });
@@ -56,6 +57,7 @@ class ListForms extends Component {
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>&nbsp;</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
