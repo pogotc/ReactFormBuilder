@@ -11,6 +11,7 @@ class FormRenderer extends Component {
             this.elementMap[field] = require('../components/FormElements/' + field).default;
         });
         this.handleClick = this.handleClick.bind(this);
+        this.handleFormNameClick = this.handleFormNameClick.bind(this);
     }
 
     handleClick(elem) {
@@ -19,11 +20,17 @@ class FormRenderer extends Component {
         }
     }
 
+    handleFormNameClick() {
+        if (this.props.selectFormNameHandler) {
+            this.props.selectFormNameHandler();
+        }
+    }
+
     render() {
         let formFields;
 
-        if (this.props.formData) {
-            formFields = this.props.formData.map((fieldData, idx) => {
+        if (this.props.formData.fields) {
+            formFields = this.props.formData.fields.map((fieldData, idx) => {
                 let FieldType = this.elementMap[fieldData.type];
                 return <FieldType label={fieldData.label} isSelected={fieldData.isSelected} id={fieldData.id} isReadOnly={this.props.isReadOnly} key={idx} onClick={this.handleClick}/>
             });
@@ -34,10 +41,13 @@ class FormRenderer extends Component {
         }
 
         return (
-            <form>
-                { formFields }
+            <div>
+                <h2 className={this.props.selectFormName ? 'selected' : ''} onClick={this.handleFormNameClick}>{this.props.formData.name}</h2>
+                <form>
+                    { formFields }
 
-            </form>
+                </form>
+            </div>
         )
     }
 }

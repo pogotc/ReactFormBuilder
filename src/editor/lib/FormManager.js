@@ -45,7 +45,7 @@ class FormManager {
 
     createNewForm() {
         return this.save(this.generateNewFormId(), {
-            "name": "Untitled",
+            "name": "Untitled Form",
             "fields": []
         });
     }
