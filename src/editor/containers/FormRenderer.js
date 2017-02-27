@@ -20,10 +20,14 @@ class FormRenderer extends Component {
     }
 
     render() {
-        let formFields = this.props.formData.map((fieldData, idx) => {
-            let FieldType = this.elementMap[fieldData.type];
-            return <FieldType label={fieldData.label} isSelected={fieldData.isSelected} id={fieldData.id} isReadOnly={this.props.isReadOnly} key={idx} onClick={this.handleClick}/>
-        });
+        let formFields;
+
+        if (this.props.formData) {
+            formFields = this.props.formData.map((fieldData, idx) => {
+                let FieldType = this.elementMap[fieldData.type];
+                return <FieldType label={fieldData.label} isSelected={fieldData.isSelected} id={fieldData.id} isReadOnly={this.props.isReadOnly} key={idx} onClick={this.handleClick}/>
+            });
+        }
 
         if (this.props.onFormSubmit) {
             formFields.push(<button className="btn btn-primary" key="submit-btn">Submit</button>);
