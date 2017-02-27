@@ -2,41 +2,72 @@ import React, { Component } from 'react';
 
 import FormRenderer from './FormRenderer';
 import ControlPanel from './ControlPanel';
+import FormManager from '../lib/FormManager';
 import '../../index.css';
 import '../../App.css';
 
 class FormBuilder extends Component {
 
     availableFieldTypes = ["TextField", "TextArea"];
+    formManager;
 
     constructor(props) {
         super(props);
         this.state = {
-            formData: [],
+            formData: [{name: "", fields: []}],
             activeControlPanelTab: "AddField",
-            fieldBeingEdited: {label: ""}
+            fieldBeingEdited: {label: ""},
+            isSaving: false
         }
+
+        this.formManager = new FormManager("https://tessituraproxy.site/formbuilder/made1");
+
         this.markFieldAsBeingEdited = this.markFieldAsBeingEdited.bind(this);
         this.startEditingElement = this.startEditingElement.bind(this);
         this.selectControlPanelTab = this.selectControlPanelTab.bind(this);
         this.updateFormDataField = this.updateFormDataField.bind(this);
         this.createNewFieldOfType = this.createNewFieldOfType.bind(this);
+        this.saveForm = this.saveForm.bind(this);
     }
 
     componentDidMount() {
+        this.formManager.fetchById(this.props.params.id)
+            .then((response) => {
+                var formData = response.data;
+                console.log(formData);
+                this.setState({
+			        formData: formData
+                });
+            })
+            .catch((err) => {
+                console.log(err);  
+            });
+    }
+
+    saveForm() {
+        this.setState({isSaving: true});
+        this.formManager.save(this.props.params.id, this.state.formData)
+            .then((response) => {
+                this.setState({isSaving: false});
+            })
+            .catch((err) => {
+                this.setState({isSaving: false});
+                console.log(err);
+            });
+    }
+
+    updateFieldsState(newFieldData) {
+        let newFormData = this.state.formData;
+        newFormData.fields = newFieldData;
+
         this.setState({
-			formData: [
-				{id: "1", type: "TextField", label: "Name"},
-				{id: "2", type: "TextField", label: "Email"},
-				{id: "3", type: "TextField", label: "Age"},
-				{id: "4", type: "TextArea", label: "Comments"}
-			]
-		});
+            formData: newFormData,
+        });
     }
 
     markFieldAsBeingEdited(elementId) {
         var fieldBeingEdited = undefined;
-        var newFormData = this.state.formData.map((fieldData) => {
+        var newFieldData = this.state.formData.fields.map((fieldData) => {
             fieldData.isSelected = fieldData.id === elementId;
             if (fieldData.id === elementId) {
                 fieldBeingEdited = fieldData;
@@ -44,9 +75,9 @@ class FormBuilder extends Component {
 
             return fieldData;
         });
+        this.updateFieldsState(newFieldData);
 
         this.setState({
-            formData: newFormData,
             fieldBeingEdited: fieldBeingEdited
         });
     }
@@ -60,16 +91,14 @@ class FormBuilder extends Component {
 
     selectControlPanelTab(tabName) {
         if (tabName !== "EditField") {
-            var newFormData = this.state.formData.map((fieldData) => {
+            var newFieldData = this.state.formData.fields.map((fieldData) => {
                 fieldData.isSelected = false;
                 return fieldData;
             });
-            this.setState({
-                formData: newFormData,
-            });
+            this.updateFieldsState(newFieldData);
         } else {
-            if (this.state.formData.length) {
-                this.markFieldAsBeingEdited(this.state.formData[0].id);
+            if (this.state.formData.fields.length) {
+                this.markFieldAsBeingEdited(this.state.formData.fields[0].id);
             }
         }
 
@@ -79,12 +108,10 @@ class FormBuilder extends Component {
     }
 
     updateFormDataField(newFieldData) {
-        var newFormData = this.state.formData.map((fieldData) => {
+        var newFormFieldData = this.state.formData.fields.map((fieldData) => {
             return newFieldData.id === fieldData.id ? newFieldData : fieldData;
         });
-        this.setState({
-            formData: newFormData,
-        });
+        this.updateFieldsState(newFormFieldData);
     }
 
     createNewFieldOfType(fieldType) {
@@ -93,11 +120,10 @@ class FormBuilder extends Component {
             type: fieldType,
             id: Math.floor(Math.random() * 10000)
         };
-        let newFormData = this.state.formData;
-        newFormData.push(newField);
-        this.setState({
-            formData: newFormData,
-        });
+        let newFieldData = this.state.formData.fields;
+        newFieldData.push(newField);
+
+        this.updateFieldsState(newFieldData);
     }
 
     render() {
@@ -107,10 +133,10 @@ class FormBuilder extends Component {
                     <div className="pull-right">
                         <button className="btn btn-default">Submission Rules</button>
                         <button className="btn btn-default">Embed</button>
-                        <button className="btn btn-primary">Save</button>
+                        <button className="btn btn-primary" onClick={this.saveForm}>{this.state.isSaving ? "Saving" : "Save"}</button>
                     </div>
 
-                    <h2>Name of form</h2>
+                    <h2>{this.state.formData.name}</h2>
                 </div>
 
                 <div className="row">
@@ -126,12 +152,12 @@ class FormBuilder extends Component {
                     </div>
                     <div className="col-md-8">
                         <FormRenderer 
-                            formData={this.state.formData} 
+                            formData={this.state.formData.fields} 
                             selectFieldHandler={this.startEditingElement} 
                             availableFieldTypes={this.availableFieldTypes}
                             isReadOnly="true"
                         />
-                        <div className={this.state.formData.length > 0 ? "hidden" : ""}>
+                        <div className={this.state.formData.fields && this.state.formData.fields.length > 0 ? "hidden" : ""}>
                             <button className="btn btn-primary" onClick={() => this.selectControlPanelTab('AddField')}>Add new field</button>
                         </div>
                     </div>
