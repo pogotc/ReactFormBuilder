@@ -11,6 +11,10 @@ class EditorMain extends Component {
                     </div>
                 </nav>
                 {this.props.children}
+
+                <footer className="footer">
+                    <p>&copy; Made Media</p>
+                </footer>
             </div>
         )
     }

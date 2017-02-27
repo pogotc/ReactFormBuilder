@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router'
 import FormRenderer from './FormRenderer';
 import ControlPanel from './ControlPanel';
 import FormManager from '../lib/FormManager';
@@ -150,12 +150,17 @@ class FormBuilder extends Component {
     render() {
         return (
             <div className="formbuilder">
-                <div className="row form-header">
+                <div className="form-header">
                     <div className="pull-right">
                         <button className="btn btn-default">Submission Rules</button>
                         <button className="btn btn-default">Embed</button>
                         <button className="btn btn-primary" onClick={this.saveForm}>{this.state.isSaving ? "Saving" : "Save"}</button>
                     </div>
+                    <p>
+                        <Link to="/editor/list">
+                            <span className="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back to all forms
+                        </Link>
+                    </p>
                 </div>
 
                 <div className="row">

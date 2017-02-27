@@ -34,7 +34,7 @@
 }
 
 .formbuilder .form-header button {
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .control-panel .control-panel-content {
@@ -58,4 +58,11 @@
 .add-field-list button {
   text-align: left;
   width: 100%;
+}
+
+.footer {
+    margin-top: 40px;
+    padding-top: 19px;
+    color: #777;
+    border-top: 1px solid #e5e5e5;
 }
