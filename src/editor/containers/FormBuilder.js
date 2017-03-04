@@ -8,7 +8,7 @@ import '../../App.css';
 
 class FormBuilder extends Component {
 
-    availableFieldTypes = ["TextField", "TextArea"];
+    availableFieldTypes = ["TextField", "TextArea", "Select"];
     formManager;
 
     constructor(props) {

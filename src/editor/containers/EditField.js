@@ -7,6 +7,7 @@ class EditField extends Component {
         this.handleFieldNameEdit = this.handleFieldNameEdit.bind(this);
         this.handleFieldTypeEdit = this.handleFieldTypeEdit.bind(this);
         this.handleFieldUpdate = this.handleFieldUpdate.bind(this);
+        this.handleOptionsEdit = this.handleOptionsEdit.bind(this);
     }
 
     handleFieldNameEdit(e) {
@@ -15,6 +16,10 @@ class EditField extends Component {
 
     handleFieldTypeEdit(e) {
         this.handleFieldUpdate("type", e.target.value);
+    }
+
+    handleOptionsEdit(e) {
+        this.handleFieldUpdate("options", e.target.value);
     }
 
     handleFieldUpdate(fieldName, newValue) {
@@ -27,11 +32,30 @@ class EditField extends Component {
 
     render() {
         var FieldTypeOptions = this.props.availableFieldTypes.map((fieldTypeName, i) => {
-            return <option value={fieldTypeName} key={i}>{fieldTypeName}</option>;
+            return <option value={fieldTypeName} key={fieldTypeName}>{fieldTypeName}</option>;
         });
 
         var fieldIsSelected = this.props.fieldBeingEdited.id !== undefined;
-        
+        var fieldTypeName = this.props.fieldBeingEdited.type;
+        let fieldTypeOptions = null;
+
+        if (fieldTypeName) {
+            let fieldTypeOptionsConfig = require('../components/FormElements/' + fieldTypeName).fieldOptions;
+            
+            if (fieldTypeOptionsConfig) {
+                let FieldOptionType = fieldTypeOptionsConfig.type || "textarea";
+                let optionsValue = this.props.fieldBeingEdited.options || fieldTypeOptionsConfig.default;
+                fieldTypeOptions =  <div className="form-group">
+                                        <label>{fieldTypeOptionsConfig.label}</label>
+                                        <FieldOptionType 
+                                                className="form-control" 
+                                                value={optionsValue}
+                                                onChange={this.handleOptionsEdit}
+                                                />
+                                    </div>;
+            }
+        }
+
         return (
             <div className={'control-panel-content ' + (!this.props.active ? 'hidden' :'')}>
                 <p className={fieldIsSelected ? 'hidden' : ''}>No field selected</p>
@@ -47,6 +71,7 @@ class EditField extends Component {
                             {FieldTypeOptions}
                         </select>
                     </div>
+                    {fieldTypeOptions}
                 </div>
             </div>
         )
