@@ -18,10 +18,6 @@ class FormComponent extends Component {
             <p>Abstract</p>
         )
     }
-
-    getEditorFieldOptions() {
-        return {};
-    }
 };
 
 let fieldOptions = null;
