@@ -7,9 +7,14 @@ class ListForms extends Component {
 
     formManager;
 
-    constructor() {
-        super();
-        this.formManager = new FormManager("https://tessituraproxy.site/formbuilder/made1");
+    constructor(props) {
+        super(props);
+
+        let appConfig = props.route.appConfig;
+        let proxyUrl = appConfig.proxyUrl;
+        let client = appConfig.client;        
+        this.formManager = new FormManager(proxyUrl + "/formbuilder/" + client, appConfig.s3base, client);
+
         this.state = {
             forms: []
         };
@@ -20,7 +25,7 @@ class ListForms extends Component {
     componentDidMount() {
         this.formManager.fetchAll()
             .then(axios.spread((...responses) => {
-                    let forms = responses.map((response) => {
+                let forms = responses.map((response) => {
                     return {
                         id: this.formManager.parseIdFromUrl(response.request.responseURL),
                         formData: response.data
@@ -42,8 +47,8 @@ class ListForms extends Component {
 
     render() {
 
-        let formElems = this.state.forms.map((form, i) => {
-            return <tr key={i}>
+        let formElems = this.state.forms.map((form) => {
+            return <tr key={form.id}>
                         <td>{form.formData.name}</td>
                         <td><Link to={'/view/' + form.id} target="_blank">View</Link></td>
                         <td><Link to={'/editor/edit/' + form.id}>Edit</Link></td>

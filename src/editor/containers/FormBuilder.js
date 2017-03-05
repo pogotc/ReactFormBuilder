@@ -19,8 +19,11 @@ class FormBuilder extends Component {
             fieldBeingEdited: {label: ""},
             isSaving: false
         }
-
-        this.formManager = new FormManager("https://tessituraproxy.site/formbuilder/made1");
+        
+        let appConfig = props.route.appConfig;
+        let proxyUrl = appConfig.proxyUrl;
+        let client = appConfig.client;        
+        this.formManager = new FormManager(proxyUrl + "/formbuilder/" + client, appConfig.s3base, client);
 
         this.markFieldAsBeingEdited = this.markFieldAsBeingEdited.bind(this);
         this.startEditingElement = this.startEditingElement.bind(this);

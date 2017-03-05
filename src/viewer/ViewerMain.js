@@ -21,12 +21,14 @@ class ViewerMain extends Component {
             hasSubmitted: false
         };
 
-        this.clientName = "made1"; //@TODO - Refactor
-        this.proxyUrl = "https://tessituraproxy.site"; //@TODO - Refactor
+        let appConfig = props.route.appConfig;
+        this.clientName = appConfig.client;
+        this.proxyUrl = appConfig.proxyUrl;
 
 
         this.tessituraClient = new Tessitura(this.proxyUrl + "/tessitura/" + this.clientName);
-        this.formManager = new FormManager(this.proxyUrl + "/formbuilder/" + this.clientName);
+
+        this.formManager = new FormManager(this.proxyUrl + "/formbuilder/" + this.clientName, appConfig.s3base, this.clientName);
 
         this.handleFieldUpdate = this.handleFieldUpdate.bind(this);
         this.handleFormSubmission = this.handleFormSubmission.bind(this);

@@ -5,10 +5,11 @@ class FormManager {
     proxyUrl;
     s3UrlBase;
 
-    constructor(proxyUrl){
+    constructor(proxyUrl, s3base, clientName){
         this.proxyUrl = proxyUrl;
-        this.s3UrlBase = "https://s3-eu-west-1.amazonaws.com/made-dev/formbuilder/made1/";
+        this.s3UrlBase = s3base + "/" + clientName
         this.prepareData = this.prepareData.bind(this);
+        this.parseIdFromUrl = this.parseIdFromUrl.bind(this);
     }
 
     fetchById(id) {
@@ -17,11 +18,11 @@ class FormManager {
     }
 
     parseIdFromUrl(url) {
-        return url.replace(this.s3UrlBase, '').replace(".json", "");
+        return url.replace(this.s3UrlBase + "/", '').replace(".json", "");
     }
 
     getUrlFromId(id) {
-        return this.s3UrlBase + id + ".json";
+        return this.s3UrlBase + "/" + id + ".json";
     }
 
     fetchAll() {
@@ -33,7 +34,7 @@ class FormManager {
         return axios.post(this.proxyUrl, payload)
             .then((response) => {
                 let fetchRequests = response.data.result.map((url) => {
-                    let id = url.replace(this.s3UrlBase, '').replace(".json", "");
+                    let id = this.parseIdFromUrl(url);
                     return this.fetchById(id);
                 });
                 return axios.all(fetchRequests);
