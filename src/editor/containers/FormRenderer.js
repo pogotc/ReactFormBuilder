@@ -32,7 +32,13 @@ class FormRenderer extends Component {
         if (this.props.formData.fields) {
             formFields = this.props.formData.fields.map((fieldData, idx) => {
                 let FieldType = this.elementMap[fieldData.type];
-                return <FieldType label={fieldData.label} isSelected={fieldData.isSelected} id={fieldData.id} isReadOnly={this.props.isReadOnly} key={idx} onClick={this.handleClick}/>
+                return <FieldType   label={fieldData.label} 
+                                    isSelected={fieldData.isSelected} 
+                                    id={fieldData.id} 
+                                    options={fieldData.options}
+                                    isReadOnly={this.props.isReadOnly} 
+                                    key={fieldData.id} 
+                                    onClick={this.handleClick}/>
             });
         }
 

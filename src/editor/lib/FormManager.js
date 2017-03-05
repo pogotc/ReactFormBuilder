@@ -8,6 +8,7 @@ class FormManager {
     constructor(proxyUrl){
         this.proxyUrl = proxyUrl;
         this.s3UrlBase = "https://s3-eu-west-1.amazonaws.com/made-dev/formbuilder/made1/";
+        this.prepareData = this.prepareData.bind(this);
     }
 
     fetchById(id) {
@@ -58,11 +59,20 @@ class FormManager {
         let payload = {
             "method":"updateform",
             "params": {
-                "data": data
+                "data": this.prepareData(data)
             },
             "id": id
         }
         return axios.post(this.proxyUrl, payload);
+    }
+
+    prepareData(data) {
+        let dataCopy = JSON.parse(JSON.stringify(data));
+        dataCopy.fields = dataCopy.fields.map((field) => {
+            field.isSelected = false;
+            return field;
+        });
+        return dataCopy;
     }
 }
 

@@ -20,4 +20,8 @@ class FormComponent extends Component {
     }
 };
 
+let fieldOptions = null;
+
+export {fieldOptions};
+
 export default FormComponent;

@@ -4,7 +4,7 @@ import FormRenderer from '../editor/containers/FormRenderer';
 
 class ViewerMain extends Component {
 
-    availableFieldTypes = ["TextField", "TextArea"];
+    availableFieldTypes = ["TextField", "TextArea", "Select"];
     formManager;
 
     constructor(props) {
