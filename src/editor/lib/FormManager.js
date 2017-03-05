@@ -48,7 +48,8 @@ class FormManager {
             "name": "Untitled Form",
             "fields": [],
             "submissionHandlers": [
-                {name: "Email", options: {to: "steve.ellis@mademedia.co.uk"}}
+                {name: "Email", options: {to: "steve.ellis@mademedia.co.uk"}},
+                {name: "CustomerServiceIssue", options: {}}
             ]
         });
     }

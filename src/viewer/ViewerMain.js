@@ -3,12 +3,15 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import FormManager from '../editor/lib/FormManager';
 import FormRenderer from '../editor/containers/FormRenderer';
+import Tessitura from '../lib/Tessitura';
 
 class ViewerMain extends Component {
 
     availableFieldTypes = ["TextField", "TextArea", "Select"];
     formManager;
     proxyUrl;
+    tessituraClient;
+    clientName;
 
     constructor(props) {
         super(props);
@@ -18,9 +21,12 @@ class ViewerMain extends Component {
             hasSubmitted: false
         };
 
-        this.proxyUrl = "https://tessituraproxy.site/formbuilder/made1";
+        this.clientName = "made1"; //@TODO - Refactor
+        this.proxyUrl = "https://tessituraproxy.site"; //@TODO - Refactor
 
-        this.formManager = new FormManager(this.proxyUrl);
+
+        this.tessituraClient = new Tessitura(this.proxyUrl + "/tessitura/" + this.clientName);
+        this.formManager = new FormManager(this.proxyUrl + "/formbuilder/" + this.clientName);
 
         this.handleFieldUpdate = this.handleFieldUpdate.bind(this);
         this.handleFormSubmission = this.handleFormSubmission.bind(this);
@@ -45,9 +51,8 @@ class ViewerMain extends Component {
         let submissionRequests = [];
         this.state.formData.submissionHandlers.forEach((handlerConfig) => {
             let handlerName = handlerConfig.name;
-
             let handlerClass = require('../submissionHandlers/' + handlerName).default;
-            let handler = new handlerClass(this.proxyUrl);
+            let handler = new handlerClass(this.proxyUrl, this.tessituraClient, this.clientName);
             submissionRequests.push(handler.handleSubmission(handlerConfig.options, this.state.formValues))
         });
         axios.all(submissionRequests).then((response) => {
