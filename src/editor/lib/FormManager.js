@@ -67,9 +67,7 @@ class FormManager {
     }
 
     prepareData(data) {
-        console.log(data);
         let dataCopy = JSON.parse(JSON.stringify(data));
-        console.log(dataCopy);
         dataCopy.fields = dataCopy.fields.map((field) => {
             field.isSelected = false;
             return field;
