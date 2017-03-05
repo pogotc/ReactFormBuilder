@@ -47,13 +47,13 @@ class FormRenderer extends Component {
         }
 
         if (this.props.onFormSubmit) {
-            formFields.push(<button className="btn btn-primary" key="submit-btn">Submit</button>);
+            formFields.push(<button ref="submitBtn" className="btn btn-primary" key="submit-btn">Submit</button>);
         }
 
         return (
             <div>
                 <h2 className={this.props.selectFormName ? 'selected' : ''} onClick={this.handleFormNameClick}>{this.props.formData.name}</h2>
-                <form onSubmit={this.props.onFormSubmit}>
+                <form onSubmit={(e) => {this.props.onFormSubmit(e, this.refs)}}>
                     { formFields }
 
                 </form>
