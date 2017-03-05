@@ -32,13 +32,17 @@ class FormRenderer extends Component {
         if (this.props.formData.fields) {
             formFields = this.props.formData.fields.map((fieldData, idx) => {
                 let FieldType = this.elementMap[fieldData.type];
+                let fieldValue = this.props.values ? this.props.values[fieldData.label] : "";
                 return <FieldType   label={fieldData.label} 
                                     isSelected={fieldData.isSelected} 
                                     id={fieldData.id} 
                                     options={fieldData.options}
                                     isReadOnly={this.props.isReadOnly} 
                                     key={fieldData.id} 
-                                    onClick={this.handleClick}/>
+                                    onClick={this.handleClick}
+                                    value={fieldValue}
+                                    handleFieldUpdate={this.props.handleFieldUpdate}
+                                    />
             });
         }
 
@@ -49,7 +53,7 @@ class FormRenderer extends Component {
         return (
             <div>
                 <h2 className={this.props.selectFormName ? 'selected' : ''} onClick={this.handleFormNameClick}>{this.props.formData.name}</h2>
-                <form>
+                <form onSubmit={this.props.onFormSubmit}>
                     { formFields }
 
                 </form>

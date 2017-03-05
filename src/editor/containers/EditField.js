@@ -41,18 +41,20 @@ class EditField extends Component {
         let fieldOptions = [];
 
         for (let optionName in config) {
-            let optionConfig = config[optionName];
-            let FieldOptionType = optionConfig.type || "textarea";
-            let optionsValue = this.props.fieldBeingEdited.options[optionName] || optionConfig.default;
-            let fieldTypeOptions =  <div className="form-group" key={optionName}>
-                                        <label>{optionConfig.label}</label>
-                                        <FieldOptionType 
-                                                className="form-control" 
-                                                value={optionsValue}
-                                                onChange={(e) => this.handleOptionsEdit(optionName, e.target.value)}
-                                                />
-                                    </div>;
-            fieldOptions.push(fieldTypeOptions);
+            if (config.hasOwnProperty(optionName)) {
+                let optionConfig = config[optionName];
+                let FieldOptionType = optionConfig.type || "textarea";
+                let optionsValue = this.props.fieldBeingEdited.options[optionName] || optionConfig.default;
+                let fieldTypeOptions =  <div className="form-group" key={optionName}>
+                                            <label>{optionConfig.label}</label>
+                                            <FieldOptionType 
+                                                    className="form-control" 
+                                                    value={optionsValue}
+                                                    onChange={(e) => this.handleOptionsEdit(optionName, e.target.value)}
+                                                    />
+                                        </div>;
+                fieldOptions.push(fieldTypeOptions);
+            }
         }
 
         return fieldOptions;

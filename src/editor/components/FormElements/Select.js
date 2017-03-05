@@ -4,11 +4,7 @@ import FormComponent from './FormComponent';
 class Select extends FormComponent {
 
     render() {
-        var attrs = {};
-        if (this.props.isReadOnly === "true") {
-            attrs['readOnly'] = 'readOnly';
-            attrs['disabled'] = 'disabled';
-        }
+        let attrs = this.getAttributesFromProps();
 
         let choices = <option />
         

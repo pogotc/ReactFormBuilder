@@ -10,10 +10,14 @@ class ViewerMain extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            formData: {name: "", fields:[]}
+            formData: {name: "", fields:[]},
+            formValues: {}
         };
 
         this.formManager = new FormManager("https://tessituraproxy.site/formbuilder/made1");
+
+        this.handleFieldUpdate = this.handleFieldUpdate.bind(this);
+        this.handleFormSubmission = this.handleFormSubmission.bind(this);
     }
 
     componentDidMount() {
@@ -29,8 +33,15 @@ class ViewerMain extends Component {
             });
     }
 
-    handleFormSubmission() {
+    handleFormSubmission(e) {
+        e.preventDefault();
+        console.log(this.state.formValues);
+    }
 
+    handleFieldUpdate(fieldName, value) {
+        this.setState((oldState) => {
+            oldState.formValues[fieldName] = value;
+        });
     }
 
     render() {
@@ -40,6 +51,8 @@ class ViewerMain extends Component {
                     formData={this.state.formData} 
                     availableFieldTypes={this.availableFieldTypes}
                     onFormSubmit={this.handleFormSubmission}
+                    handleFieldUpdate={this.handleFieldUpdate}
+                    values={this.state.formValues}
                     isReadOnly="false"
                 />
             </div>
