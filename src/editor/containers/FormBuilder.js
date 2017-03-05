@@ -29,7 +29,7 @@ class FormBuilder extends Component {
         this.updateFormDataField = this.updateFormDataField.bind(this);
         this.createNewFieldOfType = this.createNewFieldOfType.bind(this);
         this.saveForm = this.saveForm.bind(this);
-        this.updateFormName = this.updateFormName.bind(this);
+        this.handleFormSettingUpdate = this.handleFormSettingUpdate.bind(this);
         this.deselectAllFields = this.deselectAllFields.bind(this);
     }
 
@@ -126,11 +126,9 @@ class FormBuilder extends Component {
         this.updateFieldsState(newFormFieldData);
     }
 
-    updateFormName(e) {
-        let formData = this.state.formData;
-        formData.name = e.target.value;
-        this.setState({
-            formData: formData
+    handleFormSettingUpdate(settingName, newValue) {
+        this.setState((state) => {
+            state.formData[settingName] = newValue;
         });
     }
 
@@ -173,7 +171,7 @@ class FormBuilder extends Component {
                             onFieldUpdate={this.updateFormDataField}
                             onFieldCreate={this.createNewFieldOfType}
                             formData={this.state.formData}
-                            onFormNameUpdate={this.updateFormName}
+                            handleFormSettingUpdate={this.handleFormSettingUpdate}
                         />
                     </div>
                     <div className="col-md-8">

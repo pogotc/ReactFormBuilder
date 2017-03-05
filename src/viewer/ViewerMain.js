@@ -71,11 +71,19 @@ class ViewerMain extends Component {
     }
 
     renderFormConfirmation() {
+
+        let confirmationHeading = this.state.formData.confirmation_page_heading || "Submission Received";
+        let confirmationBody = null;
+
+        if (this.state.formData.confirmation_page_message) {
+            confirmationBody = <p>{this.state.formData.confirmation_page_message}</p>;
+        }
+
         return (
             <div className="container form-view">
                 <h2>{this.state.formData.name}</h2>
-                <div className="alert alert-success">Thank you for your submission</div>
-                <p>Someone will be in touch shortly</p>
+                <div className="alert alert-success">{confirmationHeading}</div>
+                {confirmationBody}
             </div>
         );
     }

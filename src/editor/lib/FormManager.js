@@ -34,7 +34,6 @@ class FormManager {
             .then((response) => {
                 let fetchRequests = response.data.result.map((url) => {
                     let id = url.replace(this.s3UrlBase, '').replace(".json", "");
-
                     return this.fetchById(id);
                 });
                 return axios.all(fetchRequests);
