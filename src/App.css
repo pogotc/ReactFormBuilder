@@ -55,6 +55,9 @@
   padding: 0px;
   width: 45%;
 }
+.control-panel textarea {
+  height: 130px;
+}
 .add-field-list button {
   text-align: left;
   width: 100%;

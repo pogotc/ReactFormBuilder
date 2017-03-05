@@ -10,36 +10,32 @@ class Select extends FormComponent {
             attrs['disabled'] = 'disabled';
         }
 
-        let options = <option />
-
-        if (this.props.options) {
-            options = this.props.options.split("\n").map((optionValue) => {
-                console.log(optionValue);
+        let choices = <option />
+        
+        if (this.props.options && this.props.options.choices) {
+            choices = this.props.options.choices.split("\n").map((optionValue) => {
                 return <option key={optionValue} value={optionValue}>{optionValue}</option>;
             });
         }
+        
 
         return (
             <div className={'form-group ' + (this.props.isSelected ? 'selected' : '')} onClick={this.handleFieldClick}>
                 <label>{ this.props.label }</label>
                 <select className="form-control" {...attrs}>
-                    {options}
+                    {choices}
                 </select>
             </div>
         )
     }
-
-    getEditorFieldOptions() {
-        return {
-            
-        }
-    }
 };
 
 let fieldOptions = {
-    label: "Choices (one per line)",
-    type: "textarea",
-    default: "First choice\nSecond choice\nThird choice"
+    "choices": {
+        label: "Choices (one per line)",
+        type: "textarea",
+        default: "First choice\nSecond choice\nThird choice"
+    }
 };
 
 export {fieldOptions};

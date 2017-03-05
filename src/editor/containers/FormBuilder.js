@@ -61,7 +61,6 @@ class FormBuilder extends Component {
     updateFieldsState(newFieldData) {
         let newFormData = this.state.formData;
         newFormData.fields = newFieldData;
-
         this.setState({
             formData: newFormData,
         });
@@ -139,7 +138,8 @@ class FormBuilder extends Component {
         let newField = {
             label: 'Untitled',
             type: fieldType,
-            id: Math.floor(Math.random() * 10000)
+            id: Math.floor(Math.random() * 10000),
+            options: {}
         };
         let newFieldData = this.state.formData.fields;
         newFieldData.push(newField);
