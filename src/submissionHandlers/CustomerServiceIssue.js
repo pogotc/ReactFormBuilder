@@ -8,6 +8,10 @@ class CustomerServiceIssue {
         this.tessituraClient = tessituraClient;
     }
 
+    getFriendlyName() {
+        return "Customer Service Issue";
+    }
+
     handleSubmission(params, formData) {
         params['Notes'] = this.formDataToString(formData);
         return this.tessituraClient.sendCustomerServiceIssue(params);

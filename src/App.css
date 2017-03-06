@@ -73,6 +73,29 @@
     border-top: 1px solid #e5e5e5;
 }
 
+
+/*
+* Popup overlay
+*/
+.overlay-background {
+    background: #000;
+    height: 100%;
+    left: 0px;
+    opacity: 0.5;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+}
+
+.overlay-content {
+    background: #fff;
+    position: fixed;
+    left: 30%;
+    width: 40%;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
 /*
 * Public Form View
 */

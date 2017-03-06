@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router'
 import FormRenderer from './FormRenderer';
 import ControlPanel from './ControlPanel';
+import SubmissionRules from './SubmissionRules';
 import FormManager from '../lib/FormManager';
 import '../../index.css';
 import '../../App.css';
@@ -17,7 +18,8 @@ class FormBuilder extends Component {
             formData: [{name: "", fields: []}],
             activeControlPanelTab: "AddField",
             fieldBeingEdited: {label: ""},
-            isSaving: false
+            isSaving: false,
+            showSubmissionRulesPanel: false
         }
         
         let appConfig = props.route.appConfig;
@@ -153,7 +155,7 @@ class FormBuilder extends Component {
             <div className="formbuilder">
                 <div className="form-header">
                     <div className="pull-right">
-                        <button className="btn btn-default">Submission Rules</button>
+                        <button className="btn btn-default" onClick={() => this.setState({showSubmissionRulesPanel: true})}>Submission Rules</button>
                         <button className="btn btn-default">Embed</button>
                         <button className="btn btn-primary" onClick={this.saveForm}>{this.state.isSaving ? "Saving" : "Save"}</button>
                     </div>
@@ -190,6 +192,11 @@ class FormBuilder extends Component {
                             <button className="btn btn-primary" onClick={() => this.selectControlPanelTab('AddField')}>Add new field</button>
                         </div>
                     </div>
+                    <SubmissionRules 
+                        enabled={this.state.showSubmissionRulesPanel} 
+                        formData={this.state.formData}
+                        onClose={() => this.setState({showSubmissionRulesPanel: false})}
+                        />
                 </div>
             </div>
         )

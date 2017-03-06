@@ -12,6 +12,10 @@ class Email {
         this.clientName = clientName;
     }
 
+    getFriendlyName() {
+        return "Email";
+    }
+
     handleSubmission(options, formData) {
         let proxyUrl = this.proxyUrl + "/formbuilder/" + this.clientName;
 
