@@ -33,10 +33,10 @@ class SubmissionRules extends Component {
         this.editRule = this.editRule.bind(this);
     }
 
-    editRule(ruleName) {
+    editRule(ruleId) {
         this.setState({
             view: "edit",
-            ruleBeingEdited: ruleName
+            ruleBeingEdited: ruleId
         });
     }
 
@@ -50,7 +50,17 @@ class SubmissionRules extends Component {
         if (this.state.nameOfRuleToCreate === 'addnew') {
             return false;
         }
-        this.handleUpdateRule(this.state.nameOfRuleToCreate, {});
+
+        let newRule = {
+            id: Math.floor(Math.random() * 10000),
+            name: this.state.nameOfRuleToCreate,
+            options: {}
+        };
+
+        let updatedRules = this.props.formData.submissionHandlers || [];
+        updatedRules.push(newRule);
+        this.props.onSubmissionRuleUpdate(updatedRules);
+        this.editRule(newRule.id);
     }
 
     render() {
@@ -70,9 +80,9 @@ class SubmissionRules extends Component {
 
         savedRules = savedRules.map((rule) => {
             let friendlyName = this.getFriendlyNameForRule(rule.name);
-            return <tr key={rule.name}>
+            return <tr key={rule.id}>
                         <td>{friendlyName}</td>
-                        <td><button className="btn" onClick={() => this.editRule(rule.name)}>Edit</button></td>
+                        <td><button className="btn" onClick={() => this.editRule(rule.id)}>Edit</button></td>
                     </tr>
         });
 
@@ -104,12 +114,11 @@ class SubmissionRules extends Component {
         )
     }
 
-    handleUpdateRule(ruleName, ruleValues) {
+    handleUpdateRule(ruleId, ruleValues) {
         let updatedRules = this.props.formData.submissionHandlers || [];
-
         let ruleIdxToUpdate = undefined;
         let ruleToUpdate = updatedRules.filter((rule, idx) => {
-            if (rule.name === ruleName) { //@TODO Refactor this to an id
+            if (rule.id === ruleId) {
                 ruleIdxToUpdate = idx;
                 return true;
             } else {
@@ -117,21 +126,25 @@ class SubmissionRules extends Component {
             }
         });
 
-        if (ruleToUpdate.length === 0) {
-            updatedRules.push({name: ruleName, options: {}});
-            this.editRule(ruleName);
-        } else {
+        if (ruleToUpdate.length !== 0) {
             updatedRules[ruleIdxToUpdate]['options'] = ruleValues;
         }
         this.props.onSubmissionRuleUpdate(updatedRules);
     }
 
     renderRuleEditor() {
-        let rule = this.rules[this.state.ruleBeingEdited];
         let submissionHandlers = this.props.formData.submissionHandlers;
+        let ruleName = submissionHandlers.reduce((acc, curr) => {
+            if (curr.id === this.state.ruleBeingEdited) {
+                return curr.name;
+            } else {
+                return acc;
+            }
+        }, undefined);
+        let rule = ruleName !== undefined ? this.rules[ruleName] : undefined;
         let ruleValues;
         submissionHandlers.forEach((handler) => {
-            if (handler.name === this.state.ruleBeingEdited) {
+            if (handler.id === this.state.ruleBeingEdited) {
                 ruleValues = handler.options;
             }
         });
@@ -139,7 +152,7 @@ class SubmissionRules extends Component {
         return (
             <SubmissionRuleEditor 
                 rule={rule}
-                ruleName={this.state.ruleBeingEdited}
+                ruleId={this.state.ruleBeingEdited}
                 ruleValues={ruleValues} 
                 formFields={this.props.formData.fields}
                 onGoBack={() => this.setState({view: "list"})}

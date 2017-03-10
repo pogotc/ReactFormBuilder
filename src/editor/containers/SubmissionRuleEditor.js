@@ -5,7 +5,7 @@ class SubmissionRuleEditor extends Component {
     onRuleUpdate(field, newValue) {
         let updatedRule = this.props.ruleValues;
         updatedRule[field] = newValue;
-        this.props.onUpdateRule(this.props.ruleName, updatedRule);
+        this.props.onUpdateRule(this.props.ruleId, updatedRule);
     }
 
     render() {
@@ -35,7 +35,7 @@ class SubmissionRuleEditor extends Component {
 
 SubmissionRuleEditor.propTypes = {
     rule: React.PropTypes.object,
-    ruleName: React.PropTypes.string,
+    ruleId: React.PropTypes.number,
     ruleValues: React.PropTypes.object,
     formFields: React.PropTypes.array,
     onGoBack: React.PropTypes.func,
