@@ -17,6 +17,18 @@ class CustomerServiceIssue {
         return this.tessituraClient.sendCustomerServiceIssue(params);
     }
 
+    getEditFields() {
+        return [
+            {name: "ContactMethod"},
+            {name: "Category"},
+            {name: "ActivityType"},
+            {name: "Origin"},
+            {name: "PerformanceNumber"},
+            {name: "PackageNumber"},
+            {name: "Urgent"}
+        ]
+    }
+
     formDataToString(formData) {
         let dataParts = [];
         for (let fieldName in formData) {

@@ -5,19 +5,19 @@
 .formbuilder .selected {
   background: #f6f5f7;
 }
-.formbuilder form .form-group.selected:hover, .formbuilder form .form-group.selected {
+.formbuilder .form-preview form .form-group.selected:hover, .formbuilder .form-preview form .form-group.selected {
   border: 1px solid #ddd;
 }
-.formbuilder form .form-group {
+.formbuilder .form-preview form .form-group {
   border: 1px solid transparent;
   margin-bottom: 0px;
   padding: 9px;
 }
-.formbuilder form .form-group:hover {
+.formbuilder .form-preview form .form-group:hover {
   border: 1px dashed #333;
   cursor: pointer;
 }
-.formbuilder form .form-control:disabled {
+.formbuilder .form-preview form .form-control:disabled {
   background-color: #fff;
   cursor: pointer;
 }
@@ -89,11 +89,13 @@
 
 .overlay-content {
     background: #fff;
-    position: fixed;
-    left: 30%;
-    width: 40%;
-    padding: 10px;
     border: 1px solid #ccc;
+    position: fixed;
+    left: 50%;
+    padding: 10px;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 40%;
 }
 
 /*

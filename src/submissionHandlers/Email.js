@@ -24,10 +24,16 @@ class Email {
             "params": {
                 "body": this.formDataToString(formData)
             },
-            "id": "3612105"
+            "id": "3612105" //@TODO - refactor this
         };
 
         return axios.post(proxyUrl, payload);
+    }
+
+    getEditFields() {
+        return [
+            {name: "to"}
+        ]
     }
 
     formDataToString(formData) {

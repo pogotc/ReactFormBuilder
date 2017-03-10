@@ -179,7 +179,7 @@ class FormBuilder extends Component {
                             handleFormSettingUpdate={this.handleFormSettingUpdate}
                         />
                     </div>
-                    <div className="col-md-8">
+                    <div className="col-md-8 form-preview">
                         <FormRenderer 
                             formData={this.state.formData} 
                             selectFieldHandler={this.startEditingElement} 
@@ -196,6 +196,9 @@ class FormBuilder extends Component {
                         enabled={this.state.showSubmissionRulesPanel} 
                         formData={this.state.formData}
                         onClose={() => this.setState({showSubmissionRulesPanel: false})}
+                        onSubmissionRuleUpdate={(updatedRules) => {
+                            this.handleFormSettingUpdate("submissionHandlers", updatedRules)
+                        }}
                         />
                 </div>
             </div>
