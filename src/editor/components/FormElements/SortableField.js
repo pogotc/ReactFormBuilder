@@ -3,14 +3,14 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 import flow from 'lodash/flow';
 
-const textFieldSource = {
+const fieldSource = {
   beginDrag(props) {
     const item = { id: props.children.props.id };
     return item;
   }
 };
 
-const textFieldTarget = {
+const fieldTarget = {
     hover(props, monitor, component) {
         const dragIndex = monitor.getItem().index;
         const hoverIndex = props.index;
@@ -18,11 +18,6 @@ const textFieldTarget = {
         // Don't replace items with themselves
         if (dragIndex === hoverIndex) {
             return;
-        }
-
-        if (dragIndex === undefined || hoverIndex === undefined) {
-            // console.log(dragIndex + " :: " + hoverIndex);
-            // return;
         }
 
         // Determine rectangle on screen
@@ -70,19 +65,6 @@ function collectTarget(connect, monitor) {
     }
 }
 
-/*
-function SortableField(FieldComponent) {
-    return class extends React.Component {
-        render() {
-            const { connectDragSource, connectDropTarget } = this.props;
-            return connectDragSource(connectDropTarget(
-                <FieldComponent {...this.props}/>
-            ));
-        }
-    }
-}
-*/
-
 class SortableField extends React.Component{
 
     render() {
@@ -94,6 +76,6 @@ class SortableField extends React.Component{
 }
 
 export default flow(
-  DragSource('field', textFieldSource, collect),
-  DropTarget('field', textFieldTarget, collectTarget)
+  DragSource('field', fieldSource, collect),
+  DropTarget('field', fieldTarget, collectTarget)
 )(SortableField);
