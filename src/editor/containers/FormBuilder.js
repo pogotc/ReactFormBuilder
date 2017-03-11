@@ -36,6 +36,7 @@ class FormBuilder extends Component {
         this.saveForm = this.saveForm.bind(this);
         this.handleFormSettingUpdate = this.handleFormSettingUpdate.bind(this);
         this.deselectAllFields = this.deselectAllFields.bind(this);
+        this.handleMoveField = this.handleMoveField.bind(this);
     }
 
     componentDidMount() {
@@ -137,6 +138,20 @@ class FormBuilder extends Component {
         });
     }
 
+    handleMoveField(dragIndex, hoverIndex) {
+        if (dragIndex === undefined || hoverIndex === undefined) {
+            return;
+        }
+
+        this.setState((state) => {
+            let fields = state.formData.fields;
+            let tmp = fields[hoverIndex];
+            fields[hoverIndex] = fields[dragIndex];
+            fields[dragIndex] = tmp;
+            state.formData.fields = fields;
+        });
+    }
+
     createNewFieldOfType(fieldType) {
         let newField = {
             label: 'Untitled',
@@ -182,6 +197,7 @@ class FormBuilder extends Component {
                     <div className="col-md-8 form-preview">
                         <FormRenderer 
                             formData={this.state.formData} 
+                            handleMoveField={this.handleMoveField}
                             selectFieldHandler={this.startEditingElement} 
                             selectFormNameHandler={this.startEditingFormName}
                             availableFieldTypes={this.availableFieldTypes}
