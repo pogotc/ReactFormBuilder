@@ -28,6 +28,14 @@ class FormComponent extends Component {
         return attrs;
     }
 
+    getFriendlyName() {
+        return "To Be Implemented";
+    }
+
+    getGlyphiconName() {
+        return "glyphicon-font";
+    }
+
     render() {
         return (
             <p>Abstract</p>

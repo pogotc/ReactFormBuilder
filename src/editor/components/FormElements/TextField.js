@@ -3,6 +3,10 @@ import FormComponent from './FormComponent';
 
 class TextField extends FormComponent {
 
+    getFriendlyName() {
+        return "Single Line Text";
+    }
+
     render() {
         let attrs = this.getAttributesFromProps();
         

@@ -3,6 +3,14 @@ import FormComponent from './FormComponent';
 
 class TextArea extends FormComponent {
 
+    getFriendlyName() {
+        return "Paragraph Text";
+    }
+
+    getGlyphiconName() {
+        return "glyphicon-align-left";
+    }
+
     render() {
         let attrs = this.getAttributesFromProps();
         

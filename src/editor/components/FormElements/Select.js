@@ -3,6 +3,14 @@ import FormComponent from './FormComponent';
 
 class Select extends FormComponent {
 
+    getFriendlyName() {
+        return "Dropdown";
+    }
+
+    getGlyphiconName() {
+        return "glyphicon-triangle-bottom";
+    }
+
     render() {
         let attrs = this.getAttributesFromProps();
 
