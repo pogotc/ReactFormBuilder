@@ -37,6 +37,7 @@ class FormBuilder extends Component {
         this.handleFormSettingUpdate = this.handleFormSettingUpdate.bind(this);
         this.deselectAllFields = this.deselectAllFields.bind(this);
         this.handleMoveField = this.handleMoveField.bind(this);
+        this.deleteField = this.deleteField.bind(this);
     }
 
     componentDidMount() {
@@ -132,6 +133,15 @@ class FormBuilder extends Component {
         this.updateFieldsState(newFormFieldData);
     }
 
+    deleteField() {
+        console.log(this.state.fieldBeingEdited);
+        this.setState((state) => {
+            state.formData.fields = state.formData.fields.filter((field) => {
+                return field.id !== state.fieldBeingEdited.id;
+            });
+        });
+    }
+
     handleFormSettingUpdate(settingName, newValue) {
         this.setState((state) => {
             state.formData[settingName] = newValue;
@@ -190,6 +200,7 @@ class FormBuilder extends Component {
                             availableFieldTypes={this.availableFieldTypes}
                             onFieldUpdate={this.updateFormDataField}
                             onFieldCreate={this.createNewFieldOfType}
+                            onFieldDelete={this.deleteField}
                             formData={this.state.formData}
                             handleFormSettingUpdate={this.handleFormSettingUpdate}
                         />

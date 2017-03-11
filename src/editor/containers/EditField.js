@@ -95,6 +95,7 @@ class EditField extends Component {
                     </div>
                     {fieldTypeOptions}
                 </div>
+                <button className="btn btn-danger" onClick={this.props.onFieldDelete}>Delete Field</button>
             </div>
         )
     }

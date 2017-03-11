@@ -11,7 +11,6 @@ class AddField extends Component {
             let classObject = require("../components/FormElements/" + fieldType).default;
             this.fieldTypes[fieldType] = new classObject();
         });
-        console.log(this.fieldTypes);
     }
 
     render() {
