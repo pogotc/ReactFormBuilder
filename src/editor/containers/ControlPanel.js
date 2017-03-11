@@ -41,8 +41,8 @@ class ControlPanel extends Component {
                 />
                 <FormSettings 
                     active={this.props.activeTab === 'FormSettings'}
-                    formName={this.props.formData.name}
-                    onFormNameUpdate={this.props.onFormNameUpdate}
+                    formData={this.props.formData}
+                    handleFormSettingUpdate={this.props.handleFormSettingUpdate}
                 />
             </div>
         )

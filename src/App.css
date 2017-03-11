@@ -1,20 +1,23 @@
+/*
+* Control Panel
+*/
 
 .formbuilder .selected {
   background: #f6f5f7;
 }
-.formbuilder form .form-group.selected:hover, .formbuilder form .form-group.selected {
+.formbuilder .form-preview form .form-group.selected:hover, .formbuilder .form-preview form .form-group.selected {
   border: 1px solid #ddd;
 }
-.formbuilder form .form-group {
+.formbuilder .form-preview form .form-group {
   border: 1px solid transparent;
   margin-bottom: 0px;
   padding: 9px;
 }
-.formbuilder form .form-group:hover {
+.formbuilder .form-preview form .form-group:hover {
   border: 1px dashed #333;
   cursor: pointer;
 }
-.formbuilder form .form-control:disabled {
+.formbuilder .form-preview form .form-control:disabled {
   background-color: #fff;
   cursor: pointer;
 }
@@ -68,4 +71,37 @@
     padding-top: 19px;
     color: #777;
     border-top: 1px solid #e5e5e5;
+}
+
+
+/*
+* Popup overlay
+*/
+.overlay-background {
+    background: #000;
+    height: 100%;
+    left: 0px;
+    opacity: 0.5;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+}
+
+.overlay-content {
+    background: #fff;
+    border: 1px solid #ccc;
+    position: fixed;
+    left: 50%;
+    padding: 10px;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 40%;
+}
+
+/*
+* Public Form View
+*/
+
+.form-view {
+  max-width: 730px;
 }

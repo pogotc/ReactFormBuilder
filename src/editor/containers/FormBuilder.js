@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router'
 import FormRenderer from './FormRenderer';
 import ControlPanel from './ControlPanel';
+import SubmissionRules from './SubmissionRules';
 import FormManager from '../lib/FormManager';
 import '../../index.css';
 import '../../App.css';
@@ -17,10 +18,14 @@ class FormBuilder extends Component {
             formData: [{name: "", fields: []}],
             activeControlPanelTab: "AddField",
             fieldBeingEdited: {label: ""},
-            isSaving: false
+            isSaving: false,
+            showSubmissionRulesPanel: false
         }
-
-        this.formManager = new FormManager("https://tessituraproxy.site/formbuilder/made1");
+        
+        let appConfig = props.route.appConfig;
+        let proxyUrl = appConfig.proxyUrl;
+        let client = appConfig.client;        
+        this.formManager = new FormManager(proxyUrl + "/formbuilder/" + client, appConfig.s3base, client);
 
         this.markFieldAsBeingEdited = this.markFieldAsBeingEdited.bind(this);
         this.startEditingElement = this.startEditingElement.bind(this);
@@ -29,7 +34,7 @@ class FormBuilder extends Component {
         this.updateFormDataField = this.updateFormDataField.bind(this);
         this.createNewFieldOfType = this.createNewFieldOfType.bind(this);
         this.saveForm = this.saveForm.bind(this);
-        this.updateFormName = this.updateFormName.bind(this);
+        this.handleFormSettingUpdate = this.handleFormSettingUpdate.bind(this);
         this.deselectAllFields = this.deselectAllFields.bind(this);
     }
 
@@ -126,11 +131,9 @@ class FormBuilder extends Component {
         this.updateFieldsState(newFormFieldData);
     }
 
-    updateFormName(e) {
-        let formData = this.state.formData;
-        formData.name = e.target.value;
-        this.setState({
-            formData: formData
+    handleFormSettingUpdate(settingName, newValue) {
+        this.setState((state) => {
+            state.formData[settingName] = newValue;
         });
     }
 
@@ -152,7 +155,7 @@ class FormBuilder extends Component {
             <div className="formbuilder">
                 <div className="form-header">
                     <div className="pull-right">
-                        <button className="btn btn-default">Submission Rules</button>
+                        <button className="btn btn-default" onClick={() => this.setState({showSubmissionRulesPanel: true})}>Submission Rules</button>
                         <button className="btn btn-default">Embed</button>
                         <button className="btn btn-primary" onClick={this.saveForm}>{this.state.isSaving ? "Saving" : "Save"}</button>
                     </div>
@@ -173,10 +176,10 @@ class FormBuilder extends Component {
                             onFieldUpdate={this.updateFormDataField}
                             onFieldCreate={this.createNewFieldOfType}
                             formData={this.state.formData}
-                            onFormNameUpdate={this.updateFormName}
+                            handleFormSettingUpdate={this.handleFormSettingUpdate}
                         />
                     </div>
-                    <div className="col-md-8">
+                    <div className="col-md-8 form-preview">
                         <FormRenderer 
                             formData={this.state.formData} 
                             selectFieldHandler={this.startEditingElement} 
@@ -189,6 +192,14 @@ class FormBuilder extends Component {
                             <button className="btn btn-primary" onClick={() => this.selectControlPanelTab('AddField')}>Add new field</button>
                         </div>
                     </div>
+                    <SubmissionRules 
+                        enabled={this.state.showSubmissionRulesPanel} 
+                        formData={this.state.formData}
+                        onClose={() => this.setState({showSubmissionRulesPanel: false})}
+                        onSubmissionRuleUpdate={(updatedRules) => {
+                            this.handleFormSettingUpdate("submissionHandlers", updatedRules)
+                        }}
+                        />
                 </div>
             </div>
         )
