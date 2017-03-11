@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 class FormRenderer extends Component {
 
@@ -36,12 +38,14 @@ class FormRenderer extends Component {
                 return <FieldType   label={fieldData.label} 
                                     isSelected={fieldData.isSelected} 
                                     id={fieldData.id} 
+                                    index={idx}
                                     options={fieldData.options}
                                     isReadOnly={this.props.isReadOnly} 
                                     key={fieldData.id} 
                                     onClick={this.handleClick}
                                     value={fieldValue}
                                     handleFieldUpdate={this.props.handleFieldUpdate}
+                                    onMoveField={this.props.handleMoveField}
                                     />
             });
         }
@@ -62,4 +66,4 @@ class FormRenderer extends Component {
     }
 }
 
-export default FormRenderer;
+export default DragDropContext(HTML5Backend)(FormRenderer);
