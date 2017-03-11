@@ -17,6 +17,7 @@ class SubmissionRules extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleNewRule = this.handleNewRule.bind(this);
         this.handleUpdateRule = this.handleUpdateRule.bind(this);
+        this.deleteRule = this.deleteRule.bind(this);
 
         this.ruleClassNames.forEach((name) => {
             let classObject = require("../../submissionHandlers/" + name).default;
@@ -40,6 +41,15 @@ class SubmissionRules extends Component {
         });
     }
 
+    deleteRule(ruleId) {
+        if (confirm("Are you sure you want to delete this rule?")) {
+            let updatedRules = this.props.formData.submissionHandlers.filter((rule) => {
+                return rule.id !== ruleId;
+            });
+            this.props.onSubmissionRuleUpdate(updatedRules);
+        }
+    }
+
     getFriendlyNameForRule(ruleName) {
         let rule = this.rules[ruleName];
         return rule.getFriendlyName();
@@ -61,6 +71,9 @@ class SubmissionRules extends Component {
         updatedRules.push(newRule);
         this.props.onSubmissionRuleUpdate(updatedRules);
         this.editRule(newRule.id);
+        this.setState({
+            nameOfRuleToCreate: "addnew"
+        });
     }
 
     render() {
@@ -83,6 +96,7 @@ class SubmissionRules extends Component {
             return <tr key={rule.id}>
                         <td>{friendlyName}</td>
                         <td><button className="btn" onClick={() => this.editRule(rule.id)}>Edit</button></td>
+                        <td><button className="btn btn-danger" onClick={() => this.deleteRule(rule.id)}>Delete</button></td>
                     </tr>
         });
 
