@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import SortableField from '../components/FormElements/SortableField';
 
 class FormRenderer extends Component {
 
@@ -35,18 +36,25 @@ class FormRenderer extends Component {
             formFields = this.props.formData.fields.map((fieldData, idx) => {
                 let FieldType = this.elementMap[fieldData.type];
                 let fieldValue = this.props.values ? this.props.values[fieldData.label] : "";
-                return <FieldType   label={fieldData.label} 
-                                    isSelected={fieldData.isSelected} 
-                                    id={fieldData.id} 
-                                    index={idx}
-                                    options={fieldData.options}
-                                    isReadOnly={this.props.isReadOnly} 
-                                    key={fieldData.id} 
-                                    onClick={this.handleClick}
-                                    value={fieldValue}
-                                    handleFieldUpdate={this.props.handleFieldUpdate}
-                                    onMoveField={this.props.handleMoveField}
-                                    />
+
+                let fieldFieldType = <FieldType 
+                                        label={fieldData.label} 
+                                        isSelected={fieldData.isSelected} 
+                                        id={fieldData.id} 
+                                        options={fieldData.options}
+                                        isReadOnly={this.props.isReadOnly} 
+                                        key={fieldData.id} 
+                                        onClick={this.handleClick}
+                                        value={fieldValue}
+                                        handleFieldUpdate={this.props.handleFieldUpdate}
+                                    />;
+                if (this.props.handleMoveField) {
+                    return <SortableField key={fieldData.id} index={idx} onMoveField={this.props.handleMoveField}>
+                                {fieldFieldType}        
+                            </SortableField>;
+                } else {
+                    return fieldFieldType;
+                }
             });
         }
 
