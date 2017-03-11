@@ -134,7 +134,6 @@ class FormBuilder extends Component {
     }
 
     deleteField() {
-        console.log(this.state.fieldBeingEdited);
         this.setState((state) => {
             state.formData.fields = state.formData.fields.filter((field) => {
                 return field.id !== state.fieldBeingEdited.id;
