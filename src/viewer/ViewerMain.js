@@ -51,10 +51,20 @@ class ViewerMain extends Component {
         e.preventDefault();
         formRefs.submitBtn.setAttribute("disabled", "disabled");
         let submissionRequests = [];
+
+        let hasSentEmail = false; // Flag to prevent email call being run more than once
         this.state.formData.submissionHandlers.forEach((handlerConfig) => {
             let handlerName = handlerConfig.name;
+            if (handlerName === "Email") {
+                if (hasSentEmail) {
+                    return;
+                }
+                hasSentEmail = true;
+            }
+
             let handlerClass = require('../submissionHandlers/' + handlerName).default;
             let handler = new handlerClass(this.proxyUrl, this.tessituraClient, this.clientName);
+            handlerConfig.options['_formid'] = this.props.params.id;
             submissionRequests.push(handler.handleSubmission(handlerConfig.options, this.state.formValues))
         });
         axios.all(submissionRequests).then((response) => {
