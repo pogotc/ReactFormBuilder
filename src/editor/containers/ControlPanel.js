@@ -38,6 +38,7 @@ class ControlPanel extends Component {
                     fieldBeingEdited={this.props.fieldBeingEdited}
                     availableFieldTypes={this.props.availableFieldTypes}
                     onFieldUpdate={this.props.onFieldUpdate}
+                    onFieldDelete={this.props.onFieldDelete}
                 />
                 <FormSettings 
                     active={this.props.activeTab === 'FormSettings'}
