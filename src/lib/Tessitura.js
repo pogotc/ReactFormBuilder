@@ -3,10 +3,11 @@ import axios from 'axios';
 class Tessitura {
 
     proxyUrl;
-    sessionKey = "G1NGO0RSW10NU3EX2134XL78CRI1NO1XSW21D9WN37A9I1DUWV97F0AUSF3VA354";
+    sessionKey;
 
-    constructor(proxyUrl){
+    constructor(proxyUrl, sessionKey){
         this.proxyUrl = proxyUrl;
+        this.sessionKey = sessionKey;
     }
 
     sendCustomerServiceIssue(params) {

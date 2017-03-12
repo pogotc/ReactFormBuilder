@@ -12,6 +12,7 @@ class ViewerMain extends Component {
     proxyUrl;
     tessituraClient;
     clientName;
+    sessionKey;
 
     constructor(props) {
         super(props);
@@ -25,8 +26,13 @@ class ViewerMain extends Component {
         this.clientName = appConfig.client;
         this.proxyUrl = appConfig.proxyUrl;
 
+        if (props.sessionKey) {
+            this.sessionKey = props.sessionKey;
+        } else {
+            this.sessionKey = props.location.query['sessionkey'];
+        }
 
-        this.tessituraClient = new Tessitura(this.proxyUrl + "/tessitura/" + this.clientName);
+        this.tessituraClient = new Tessitura(this.proxyUrl + "/tessitura/" + this.clientName, this.sessionKey);
 
         this.formManager = new FormManager(this.proxyUrl + "/formbuilder/" + this.clientName, appConfig.s3base, this.clientName);
 
