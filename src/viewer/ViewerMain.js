@@ -43,6 +43,7 @@ class ViewerMain extends Component {
                 this.setState({
 			        formData: formData
                 });
+                document.title = formData.name;
             })
             .catch((err) => {
                 console.log(err);  
