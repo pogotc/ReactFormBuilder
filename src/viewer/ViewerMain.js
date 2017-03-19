@@ -12,6 +12,8 @@ class ViewerMain extends Component {
     proxyUrl;
     clientName;
     sessionKey;
+    Header;
+    Footer;
 
     constructor(props) {
         super(props);
@@ -28,6 +30,10 @@ class ViewerMain extends Component {
 
         this.handleFieldUpdate = this.handleFieldUpdate.bind(this);
         this.handleFormSubmission = this.handleFormSubmission.bind(this);
+
+        require('../themes/' + this.clientName + '/styles.css');
+        this.Header = require('../themes/' + this.clientName + '/header').default; 
+        this.Footer = require('../themes/' + this.clientName + '/footer').default; 
     }
 
     componentDidMount() {
@@ -86,11 +92,20 @@ class ViewerMain extends Component {
     }
 
     render() {
+        let content = null;
         if (!this.state.hasSubmitted) {
-            return this.renderForm();
+            content = this.renderForm();
         } else {
-            return this.renderFormConfirmation();
+            content = this.renderFormConfirmation();
         }
+
+        return <div>
+                    <this.Header />
+                    <div className="form-view">
+                        {content}
+                    </div>
+                    <this.Footer />
+                </div>
     }
 
     renderFormConfirmation() {
@@ -103,7 +118,7 @@ class ViewerMain extends Component {
         }
 
         return (
-            <div className="container form-view">
+            <div>
                 <h2>{this.state.formData.name}</h2>
                 <div className="alert alert-success">{confirmationHeading}</div>
                 {confirmationBody}
@@ -113,16 +128,14 @@ class ViewerMain extends Component {
 
     renderForm() {
         return (
-            <div className="container form-view">
-                <FormRenderer 
-                    formData={this.state.formData} 
-                    availableFieldTypes={this.availableFieldTypes}
-                    onFormSubmit={this.handleFormSubmission}
-                    handleFieldUpdate={this.handleFieldUpdate}
-                    values={this.state.formValues}
-                    isReadOnly="false"
-                />
-            </div>
+            <FormRenderer 
+                formData={this.state.formData} 
+                availableFieldTypes={this.availableFieldTypes}
+                onFormSubmit={this.handleFormSubmission}
+                handleFieldUpdate={this.handleFieldUpdate}
+                values={this.state.formValues}
+                isReadOnly="false"
+            />
         )
     }
 }
