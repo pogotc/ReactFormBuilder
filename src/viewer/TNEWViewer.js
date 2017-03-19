@@ -2,7 +2,6 @@ import axios from 'axios';
 
 import React, { Component } from 'react';
 import ViewerMain from './ViewerMain';
-// import Tessitura from '../lib/Tessitura';
 
 class TNEWViewer extends Component {
 
@@ -14,11 +13,12 @@ class TNEWViewer extends Component {
         this.state = {
             sessionKey: ""
         }
-
-        //@TODO Config items to refactor
-        this.proxyUrl = "https://tessituraproxy.site/tnew/massapp?GetTNEWAnonymousSession";
-        let returnUrl = "http://forms.masseyhallroythomsonhall.com:3000/tnew/3823280";
-        this.loginUrl = "https://tickets.masseyhallroythomsonhall.com/account/login.aspx?ReturnUrl=" + returnUrl;
+        
+        let clientName = props.route.appConfig.client;
+        let tnewConfig = props.route.appConfig.tnew;
+        this.proxyUrl = props.route.appConfig.proxyUrl + "/tnew/" + clientName;
+        let returnUrl = window.location.href;
+        this.loginUrl = tnewConfig.loginUrl + "?ReturnUrl=" + returnUrl;
 
         this.fetchSessionKeyForUser = this.fetchSessionKeyForUser.bind(this);
 
@@ -54,6 +54,10 @@ class TNEWViewer extends Component {
     }
 
     render () {
+        if (!this.state.sessionKey) {
+            return null;
+        }
+
         return <ViewerMain {...this.props} sessionKey={this.state.sessionKey} />;
     }
 }
