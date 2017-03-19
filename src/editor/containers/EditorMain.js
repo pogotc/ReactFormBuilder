@@ -4,7 +4,7 @@ class EditorMain extends Component {
 
     render() {
         return (
-            <div>
+            <div className="container">
                 <nav className="navbar navbar-default">
                     <div className="navbar-header">
                         <a className="navbar-brand">FormBuilder</a>

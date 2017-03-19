@@ -10,9 +10,10 @@ class ViewerMain extends Component {
     availableFieldTypes = ["TextField", "TextArea", "Select"];
     formManager;
     proxyUrl;
-    tessituraClient;
     clientName;
     sessionKey;
+    Header;
+    Footer;
 
     constructor(props) {
         super(props);
@@ -25,19 +26,14 @@ class ViewerMain extends Component {
         let appConfig = props.route.appConfig;
         this.clientName = appConfig.client;
         this.proxyUrl = appConfig.proxyUrl;
-
-        if (props.sessionKey) {
-            this.sessionKey = props.sessionKey;
-        } else {
-            this.sessionKey = props.location.query['sessionkey'];
-        }
-
-        this.tessituraClient = new Tessitura(this.proxyUrl + "/tessitura/" + this.clientName, this.sessionKey);
-
         this.formManager = new FormManager(this.proxyUrl + "/formbuilder/" + this.clientName, appConfig.s3base, this.clientName);
 
         this.handleFieldUpdate = this.handleFieldUpdate.bind(this);
         this.handleFormSubmission = this.handleFormSubmission.bind(this);
+
+        require('../themes/' + this.clientName + '/styles.css');
+        this.Header = require('../themes/' + this.clientName + '/header').default; 
+        this.Footer = require('../themes/' + this.clientName + '/footer').default; 
     }
 
     componentDidMount() {
@@ -47,6 +43,7 @@ class ViewerMain extends Component {
                 this.setState({
 			        formData: formData
                 });
+                document.title = formData.name;
             })
             .catch((err) => {
                 console.log(err);  
@@ -55,6 +52,16 @@ class ViewerMain extends Component {
 
     handleFormSubmission(e, formRefs) {
         e.preventDefault();
+
+        let sessionKey;
+        if (this.props.sessionKey) {
+            sessionKey = this.props.sessionKey;
+        } else {
+            sessionKey = this.props.location.query['sessionkey'];
+        }
+        
+        let tessituraClient = new Tessitura(this.proxyUrl + "/tessitura/" + this.clientName, sessionKey);
+
         formRefs.submitBtn.setAttribute("disabled", "disabled");
         let submissionRequests = [];
 
@@ -69,7 +76,7 @@ class ViewerMain extends Component {
             }
 
             let handlerClass = require('../submissionHandlers/' + handlerName).default;
-            let handler = new handlerClass(this.proxyUrl, this.tessituraClient, this.clientName);
+            let handler = new handlerClass(this.proxyUrl, tessituraClient, this.clientName);
             handlerConfig.options['_formid'] = this.props.params.id;
             submissionRequests.push(handler.handleSubmission(handlerConfig.options, this.state.formValues))
         });
@@ -86,11 +93,20 @@ class ViewerMain extends Component {
     }
 
     render() {
+        let content = null;
         if (!this.state.hasSubmitted) {
-            return this.renderForm();
+            content = this.renderForm();
         } else {
-            return this.renderFormConfirmation();
+            content = this.renderFormConfirmation();
         }
+
+        return <div>
+                    <this.Header />
+                    <div className="form-view">
+                        {content}
+                    </div>
+                    <this.Footer />
+                </div>
     }
 
     renderFormConfirmation() {
@@ -103,7 +119,7 @@ class ViewerMain extends Component {
         }
 
         return (
-            <div className="container form-view">
+            <div>
                 <h2>{this.state.formData.name}</h2>
                 <div className="alert alert-success">{confirmationHeading}</div>
                 {confirmationBody}
@@ -113,16 +129,14 @@ class ViewerMain extends Component {
 
     renderForm() {
         return (
-            <div className="container form-view">
-                <FormRenderer 
-                    formData={this.state.formData} 
-                    availableFieldTypes={this.availableFieldTypes}
-                    onFormSubmit={this.handleFormSubmission}
-                    handleFieldUpdate={this.handleFieldUpdate}
-                    values={this.state.formValues}
-                    isReadOnly="false"
-                />
-            </div>
+            <FormRenderer 
+                formData={this.state.formData} 
+                availableFieldTypes={this.availableFieldTypes}
+                onFormSubmit={this.handleFormSubmission}
+                handleFieldUpdate={this.handleFieldUpdate}
+                values={this.state.formValues}
+                isReadOnly="false"
+            />
         )
     }
 }

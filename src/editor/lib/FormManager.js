@@ -48,10 +48,7 @@ class FormManager {
         return this.save(this.generateNewFormId(), {
             "name": "Untitled Form",
             "fields": [],
-            "submissionHandlers": [
-                {name: "Email", options: {to: "steve.ellis@mademedia.co.uk"}},
-                {name: "CustomerServiceIssue", options: {}}
-            ]
+            "submissionHandlers": []
         });
     }
 
