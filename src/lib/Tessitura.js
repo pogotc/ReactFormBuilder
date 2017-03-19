@@ -20,6 +20,25 @@ class Tessitura {
 
         return axios.post(this.proxyUrl, payload);
     }
+
+    addAttribute(keywordId, value) {
+        let params = {
+            'sWebSessionId': this.sessionKey,
+            'cAction': 'A',
+            'iKeywordNumber': keywordId,
+            'sOldKeyValue': '',
+            'sNewKeyValue': value,
+            'cAccountName': '3'
+        };
+
+        let payload = {
+            "method":"UpdateConstituentAttributes",
+            "params": params,
+            "id": null
+        }
+
+        return axios.post(this.proxyUrl, payload);
+    }
 }
 
 export default Tessitura;

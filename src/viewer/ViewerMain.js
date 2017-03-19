@@ -10,7 +10,6 @@ class ViewerMain extends Component {
     availableFieldTypes = ["TextField", "TextArea", "Select"];
     formManager;
     proxyUrl;
-    tessituraClient;
     clientName;
     sessionKey;
 
@@ -25,15 +24,6 @@ class ViewerMain extends Component {
         let appConfig = props.route.appConfig;
         this.clientName = appConfig.client;
         this.proxyUrl = appConfig.proxyUrl;
-
-        if (props.sessionKey) {
-            this.sessionKey = props.sessionKey;
-        } else {
-            this.sessionKey = props.location.query['sessionkey'];
-        }
-
-        this.tessituraClient = new Tessitura(this.proxyUrl + "/tessitura/" + this.clientName, this.sessionKey);
-
         this.formManager = new FormManager(this.proxyUrl + "/formbuilder/" + this.clientName, appConfig.s3base, this.clientName);
 
         this.handleFieldUpdate = this.handleFieldUpdate.bind(this);
@@ -55,6 +45,16 @@ class ViewerMain extends Component {
 
     handleFormSubmission(e, formRefs) {
         e.preventDefault();
+
+        let sessionKey;
+        if (this.props.sessionKey) {
+            sessionKey = this.props.sessionKey;
+        } else {
+            sessionKey = this.props.location.query['sessionkey'];
+        }
+        
+        let tessituraClient = new Tessitura(this.proxyUrl + "/tessitura/" + this.clientName, sessionKey);
+
         formRefs.submitBtn.setAttribute("disabled", "disabled");
         let submissionRequests = [];
 
@@ -69,7 +69,7 @@ class ViewerMain extends Component {
             }
 
             let handlerClass = require('../submissionHandlers/' + handlerName).default;
-            let handler = new handlerClass(this.proxyUrl, this.tessituraClient, this.clientName);
+            let handler = new handlerClass(this.proxyUrl, tessituraClient, this.clientName);
             handlerConfig.options['_formid'] = this.props.params.id;
             submissionRequests.push(handler.handleSubmission(handlerConfig.options, this.state.formValues))
         });
