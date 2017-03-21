@@ -66,6 +66,8 @@ class ViewerMain extends Component {
         let submissionRequests = [];
 
         let hasSentEmail = false; // Flag to prevent email call being run more than once
+        let redirectHandler = null;
+        let redirectConfig = null;
         this.state.formData.submissionHandlers.forEach((handlerConfig) => {
             let handlerName = handlerConfig.name;
             if (handlerName === "Email") {
@@ -78,11 +80,21 @@ class ViewerMain extends Component {
             let handlerClass = require('../submissionHandlers/' + handlerName).default;
             let handler = new handlerClass(this.proxyUrl, tessituraClient, this.clientName);
             handlerConfig.options['_formid'] = this.props.params.id;
-            submissionRequests.push(handler.handleSubmission(handlerConfig.options, this.state.formValues))
+
+            if (handlerName === "Redirect") {
+                redirectHandler = handler;
+                redirectConfig = handlerConfig;
+            } else {
+                submissionRequests.push(handler.handleSubmission(handlerConfig.options, this.state.formValues))
+            }
         });
         axios.all(submissionRequests).then((response) => {
-            formRefs.submitBtn.removeAttribute("disabled");
-            this.setState({hasSubmitted: true});
+            if (redirectHandler) {
+                redirectHandler.handleSubmission(redirectConfig.options, this.state.formValues);
+            } else {
+                formRefs.submitBtn.removeAttribute("disabled");
+                this.setState({hasSubmitted: true});
+            }
         });
     }
 

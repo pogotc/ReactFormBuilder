@@ -16,7 +16,8 @@ let applicationConfig = {
 	    "s3base": "https://s3-eu-west-1.amazonaws.com/made-dev/formbuilder",
 		"css-prefix": "theme-massey",
 		"tnew" : {
-			"loginUrl": "https://tickets.masseyhallroythomsonhall.com/account/login.aspx"
+			"loginUrl": "https://tickets.masseyhallroythomsonhall.com/account/login.aspx",
+			"cookieDomain": ".masseyhallroythomsonhall.com"
 		}
     }
 };
