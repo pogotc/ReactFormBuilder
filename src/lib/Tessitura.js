@@ -39,6 +39,23 @@ class Tessitura {
 
         return axios.post(this.proxyUrl, payload);
     }
+
+    addContribution(amount, fund, accountMethod, upgrade, renew) {
+        let params = {
+            'sWebSessionID': this.sessionKey,
+            'Amount': amount,
+            'Fund': fund,
+            'AccountMethod': accountMethod || 0,
+            'Upgrade': upgrade || "false",
+            'Renew': renew || "false"
+        }
+        let payload = {
+            "method":"AddContribution",
+            "params": params,
+            "id": null
+        }
+        return axios.post(this.proxyUrl, payload);
+    }
 }
 
 export default Tessitura;

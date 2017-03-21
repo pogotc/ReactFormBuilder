@@ -17,6 +17,7 @@ class TextArea extends FormComponent {
         return (
             <div className={'form-group ' + (this.props.isSelected ? 'selected' : '')} onClick={this.handleFieldClick}>
                 <label>{ this.props.label }</label>
+                {this.getHelpText()}
                 <textarea className="form-control" {...attrs}></textarea>
             </div>
         )

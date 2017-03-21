@@ -28,6 +28,13 @@ class FormComponent extends Component {
         return attrs;
     }
 
+    getHelpText() {
+        if (this.props.help) {
+            return <span className="help-block">{this.props.help}</span>;
+        }
+        return null;
+    }
+
     getFriendlyName() {
         return "To Be Implemented";
     }

@@ -6,7 +6,8 @@ import ViewerMain from './ViewerMain';
 class TNEWViewer extends Component {
 
     proxyUrl;
-    loginUrl;;
+    loginUrl;
+    cookieDomain;
 
     constructor(props) {
         super(props);
@@ -17,6 +18,8 @@ class TNEWViewer extends Component {
         let clientName = props.route.appConfig.client;
         let tnewConfig = props.route.appConfig.tnew;
         this.proxyUrl = props.route.appConfig.proxyUrl + "/tnew/" + clientName;
+        this.cookieDomain = tnewConfig.cookieDomain;
+
         let returnUrl = window.location.href;
         this.loginUrl = tnewConfig.loginUrl + "?ReturnUrl=" + returnUrl;
         this.fetchSessionKeyForUser = this.fetchSessionKeyForUser.bind(this);
@@ -69,7 +72,8 @@ class TNEWViewer extends Component {
             date.setTime(date.getTime() + (days*24*60*60*1000));
             expires = "; expires=" + date.toUTCString();
         }
-        document.cookie = name + "=" + value + expires + "; path=/";
+        document.cookie = name + "=" + value + expires + "; path=/; domain=" + this.cookieDomain;
+        console.log(name + "=" + value + expires + "; path=/; domain=" + this.cookieDomain);
     }
 
 
@@ -93,7 +97,7 @@ class TNEWViewer extends Component {
         if (!this.state.sessionKey) {
             return null;
         }
-
+        console.log(this.state.sessionKey);
         return <ViewerMain {...this.props} sessionKey={this.state.sessionKey} />;
     }
 }

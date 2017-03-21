@@ -18,7 +18,15 @@ class Select extends FormComponent {
         
         if (this.props.options && this.props.options.choices) {
             choices = this.props.options.choices.split("\n").map((optionValue) => {
-                return <option key={optionValue} value={optionValue}>{optionValue}</option>;
+                let keyValueCheck = optionValue.match(/([^:]+):(.*)/);
+                let value = optionValue;
+                let label = optionValue;
+                if (keyValueCheck !== null && keyValueCheck.length) {
+                    value = keyValueCheck[1];
+                    label = keyValueCheck[2];
+                }
+                
+                return <option key={value} value={value}>{label}</option>;
             });
         }
         
@@ -26,6 +34,7 @@ class Select extends FormComponent {
         return (
             <div className={'form-group ' + (this.props.isSelected ? 'selected' : '')} onClick={this.handleFieldClick}>
                 <label>{ this.props.label }</label>
+                {this.getHelpText()}
                 <select className="form-control" {...attrs}>
                     {choices}
                 </select>

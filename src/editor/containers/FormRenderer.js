@@ -39,6 +39,7 @@ class FormRenderer extends Component {
 
                 let fieldFieldType = <FieldType 
                                         label={fieldData.label} 
+                                        help={fieldData.help}
                                         isSelected={fieldData.isSelected} 
                                         id={fieldData.id} 
                                         options={fieldData.options}
