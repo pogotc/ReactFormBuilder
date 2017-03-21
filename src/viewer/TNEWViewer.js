@@ -19,8 +19,8 @@ class TNEWViewer extends Component {
         this.proxyUrl = props.route.appConfig.proxyUrl + "/tnew/" + clientName;
         let returnUrl = window.location.href;
         this.loginUrl = tnewConfig.loginUrl + "?ReturnUrl=" + returnUrl;
-
         this.fetchSessionKeyForUser = this.fetchSessionKeyForUser.bind(this);
+        this.createNewTNEWSession = this.createNewTNEWSession.bind(this);
 
         let rawCookies = document.cookie.split(";");
         let tnewCookieVal;
@@ -30,12 +30,48 @@ class TNEWViewer extends Component {
                 tnewCookieVal = matches[1];
             }
          });
+
+         let mustBeLoggedIn = false;
+
          if (tnewCookieVal) {
-            this.fetchSessionKeyForUser(tnewCookieVal);
+             this.fetchSessionKeyForUser(tnewCookieVal);
          } else {
-             window.location = this.loginUrl;
+            if (mustBeLoggedIn) {
+                window.location = this.loginUrl;
+            } else {
+                this.createNewTNEWSession();
+            } 
          }
     }
+
+    createNewTNEWSession() {
+        var payload = {
+            "method": "GetTNEWAnonymousSession",
+	        "params": {
+                "returnCookie": true
+            },
+	        "id": null
+        };
+        axios.post(this.proxyUrl, payload)
+        .then((response) => {
+            let result = response.data.result;
+            this.setState({
+                sessionKey: result.sessionKey
+            });
+            this.createCookie("TNEW", result.cookie);
+        });
+    }
+
+    createCookie(name,value,days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + value + expires + "; path=/";
+    }
+
 
     fetchSessionKeyForUser(cookieVal) {
         var payload = {

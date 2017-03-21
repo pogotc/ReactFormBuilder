@@ -14,13 +14,14 @@ let applicationConfig = {
         "proxyUrl": "https://tessituraproxy.site",
 	    "client": "massapp",
 	    "s3base": "https://s3-eu-west-1.amazonaws.com/made-dev/formbuilder",
+		"css-prefix": "theme-massey",
 		"tnew" : {
 			"loginUrl": "https://tickets.masseyhallroythomsonhall.com/account/login.aspx"
 		}
     }
 };
 let appConfig = {};
-let appHostname = window.location.hostname;
+let appHostname = "forms.masseyhallroythomsonhall.com";//window.location.hostname;
 
 for (let domain in applicationConfig) {
 	if (appHostname === domain) {

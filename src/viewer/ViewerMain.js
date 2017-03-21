@@ -12,6 +12,7 @@ class ViewerMain extends Component {
     proxyUrl;
     clientName;
     sessionKey;
+    appConfig;
     Header;
     Footer;
 
@@ -22,11 +23,10 @@ class ViewerMain extends Component {
             formValues: {},
             hasSubmitted: false
         };
-
-        let appConfig = props.route.appConfig;
-        this.clientName = appConfig.client;
-        this.proxyUrl = appConfig.proxyUrl;
-        this.formManager = new FormManager(this.proxyUrl + "/formbuilder/" + this.clientName, appConfig.s3base, this.clientName);
+        this.appConfig = props.route.appConfig;
+        this.clientName = this.appConfig.client;
+        this.proxyUrl = this.appConfig.proxyUrl;
+        this.formManager = new FormManager(this.proxyUrl + "/formbuilder/" + this.clientName, this.appConfig.s3base, this.clientName);
 
         this.handleFieldUpdate = this.handleFieldUpdate.bind(this);
         this.handleFormSubmission = this.handleFormSubmission.bind(this);
@@ -100,7 +100,8 @@ class ViewerMain extends Component {
             content = this.renderFormConfirmation();
         }
 
-        return <div>
+        let cssPrefix = this.appConfig['css-prefix'];
+        return <div className={cssPrefix}>
                     <this.Header />
                     <div className="form-view">
                         {content}

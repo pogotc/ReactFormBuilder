@@ -1,9 +1,9 @@
-body, html, input, select, textarea {
+.theme-massey, .theme-massey input, .theme-massey select, .theme-massey textarea {
     font-family: kepler-std,Georgia,serif;
     -webkit-font-smoothing: antialiased;
 }
 
-.btn-primary {
+.theme-massey .btn-primary {
     background-color: #5cbfb4;
     border: 1px solid #5cbfb4;
     font-size: 15px;
@@ -21,17 +21,17 @@ body, html, input, select, textarea {
     color: #fff;
 }
 
-h2 {
+.theme-massey h2 {
     font-size: 28px;
     font-family: Trim Poster,Impact,Arial Black,sans-serif;
     text-transform: uppercase;   
 }
 
-.global-header {
+.theme-massey .global-header {
     color: #fff;
     font-family: Arial,sans-serif;
 }
-.global-header__inner {
+.theme-massey .global-header__inner {
     position: fixed;
     padding: 12px 0;
     width: calc(100% - 180px);
@@ -44,14 +44,14 @@ h2 {
     right: 0px;
 }
 
-.u-constrained {
+.theme-massey .u-constrained {
     width: 90%;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.global-navigation {
+.theme-massey .global-navigation {
     display: block;
     float: left;
     list-style: none;
@@ -61,7 +61,7 @@ h2 {
     margin-bottom: 0;
 }
 
-.global-navigation__item {
+.theme-massey .global-navigation__item {
     float: left;
     display: block;
     list-style: none;
@@ -69,26 +69,26 @@ h2 {
     font-size: 12px;
 }
 
-.global-navigation__link, .global-navigation__link:visited {
+.theme-massey .global-navigation__link, .theme-massey .global-navigation__link:visited {
     display: block;
     color: inherit;
     opacity: 0.5;
     padding-right: 2em;
     font-weight: 400;
 }
-.global-navigation__link:hover {
+.theme-massey .global-navigation__link:hover {
     opacity: 1;
     color: white;
     text-decoration: none;
 }
 
-.form-view {
+.theme-massey .form-view {
     margin-left: 232px;
     padding-top: 4em;
 }
 
 
-.global-sidebar {
+.theme-massey .global-sidebar {
     position: absolute;
     left: -180px;
     top: 0;
@@ -103,7 +103,7 @@ h2 {
     font-family: Arial,sans-serif;
 }
 
-.global-sidebar__branding {
+.theme-massey .global-sidebar__branding {
     padding: 20px;
     width: 180px;
     margin: 0 0 20px;
@@ -113,12 +113,12 @@ h2 {
     text-align: center;
 }
 
-.u-ir {
+.theme-massey .u-ir {
     display: block;
     text-indent: -999999px;
     overflow: hidden;
 }
-.global-branding {
+.theme-massey .global-branding {
     background-size: contain;
     background-image: url(https://d3vc61m0ib870y.cloudfront.net/1.1.11/images/logo-corporation.svg);
     background-position: 50%;
@@ -130,7 +130,7 @@ h2 {
     
 }
 
-.global-footer {
+.theme-massey .global-footer {
     text-align: left;
     color: #ccc;
     background-color: #201d1e;
@@ -144,22 +144,22 @@ h2 {
     width: calc(100% - 180px);
     bottom: 0px;
 }
-.global-footer a {
+.theme-massey .global-footer a {
     color: #ccc;
 }
-.global-footer__inner {
+.theme-massey .global-footer__inner {
     line-height: 18.2px;
     padding: 32px 0;
     font-weight: 400;
 }
 
-.global-footer__details__block {
+.theme-massey .global-footer__details__block {
     width: 30%;
     margin-right: 3.333%;
     float: left;
 }
 
-.global-footer__meta {
+.theme-massey .global-footer__meta {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -170,17 +170,19 @@ h2 {
     text-align: center;
 }
 
-.global-footer__meta__copyright, .global-footer__meta__made, .global-footer__meta__sponsors {
+.theme-massey .global-footer__meta__copyright, 
+.theme-massey .global-footer__meta__made, 
+.theme-massey .global-footer__meta__sponsors {
     float: left;
 }
-.global-footer__meta__copyright {
+.theme-massey .global-footer__meta__copyright {
     text-align: left;
 }
-.global-footer__meta__copyright {
+.theme-massey .global-footer__meta__copyright {
     color: #ccc;
 }
 
-.global-footer__meta__copyright .footer-privacy {
+.theme-massey .global-footer__meta__copyright .footer-privacy {
     margin-left: .5em;
     padding-left: .5em;
     border-left: 1px solid #666;
