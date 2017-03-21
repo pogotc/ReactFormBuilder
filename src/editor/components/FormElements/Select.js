@@ -26,6 +26,7 @@ class Select extends FormComponent {
         return (
             <div className={'form-group ' + (this.props.isSelected ? 'selected' : '')} onClick={this.handleFieldClick}>
                 <label>{ this.props.label }</label>
+                {this.getHelpText()}
                 <select className="form-control" {...attrs}>
                     {choices}
                 </select>

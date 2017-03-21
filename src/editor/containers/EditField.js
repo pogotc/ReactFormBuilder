@@ -9,6 +9,7 @@ class EditField extends Component {
         this.handleFieldTypeEdit = this.handleFieldTypeEdit.bind(this);
         this.handleFieldUpdate = this.handleFieldUpdate.bind(this);
         this.handleOptionsEdit = this.handleOptionsEdit.bind(this);
+        this.handleFieldHelpEdit = this.handleFieldHelpEdit.bind(this);
     }
 
     handleFieldNameEdit(e) {
@@ -17,6 +18,10 @@ class EditField extends Component {
 
     handleFieldTypeEdit(e) {
         this.handleFieldUpdate("type", e.target.value);
+    }
+
+    handleFieldHelpEdit(e) {
+        this.handleFieldUpdate("help", e.target.value);
     }
 
     handleOptionsEdit(optionName, newVal) {
@@ -85,6 +90,10 @@ class EditField extends Component {
                     <div className="form-group">
                         <label>Field Label</label>
                         <input type="text" className="form-control" value={this.props.fieldBeingEdited.label} onChange={this.handleFieldNameEdit}/> 
+                    </div>
+                    <div className="form-group">
+                        <label>Field Help</label>
+                        <input type="text" className="form-control" value={this.props.fieldBeingEdited.help || ""} onChange={this.handleFieldHelpEdit}/> 
                     </div>
                     <div className="form-group">
                         <label>Field Type</label>
