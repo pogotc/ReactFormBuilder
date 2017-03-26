@@ -16,14 +16,14 @@ class FormSubmissionCompiler {
             let ruleConfig = submissionRuleConfig[ruleParam];
             let value = undefined;
             switch (ruleConfig['source']) {
-                case "Hardcode":
-                    value = this.handleHardcoded(ruleConfig);
-                    break;
                 case "From Field":
                     value = this.handleFromField(ruleConfig, formValues);
                     break;
                 case "From Script":
                     value = this.handleScript(ruleConfig, formValues);
+                    break;
+                default:
+                    value = this.handleHardcoded(ruleConfig);
                     break;
             }
             compiledValues[ruleParam] = value;
