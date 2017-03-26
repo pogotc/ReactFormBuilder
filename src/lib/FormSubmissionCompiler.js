@@ -42,7 +42,10 @@ class FormSubmissionCompiler {
     }
 
     handleScript(ruleConfig, formValues) {
-        return "TODO";
+        let _compileFunc = function() {};
+        let script = "window._compileFunc = " + ruleConfig.value;
+        eval(script);
+        return window._compileFunc(formValues);
     }
 }
 

@@ -100,9 +100,7 @@ class ViewerMain extends Component {
         });
         axios.all(submissionRequests).then((response) => {
             if (redirectHandler) {
-                console.log(redirectConfig.options);
                 let compiledData = submissionCompiler.compile(redirectConfig.options, this.state.formValues);
-                console.log(compiledData);
                 redirectHandler.handleSubmission(compiledData, redirectConfig.options, this.state.formValues);
             } else {
                 formRefs.submitBtn.removeAttribute("disabled");
