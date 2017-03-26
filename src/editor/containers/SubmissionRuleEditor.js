@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import SubmissionRuleHardcodeField from '../components/SubmissionRuleHardcodeField';
+import SubmissionRuleFromField from '../components/SubmissionRuleFromField';
+import SubmissionRuleFromScript from '../components/SubmissionRuleFromScript';
 
 class SubmissionRuleEditor extends Component {
 
@@ -8,14 +11,25 @@ class SubmissionRuleEditor extends Component {
             fieldValues: JSON.parse(JSON.stringify(this.props.ruleValues))
         }
         this.saveChanges = this.saveChanges.bind(this);
+        this.onSourceChange = this.onSourceChange.bind(this);
+        this.onRuleUpdate = this.onRuleUpdate.bind(this);
     }
 
     onRuleUpdate(field, newValue) {
-        // let updatedRule = this.props.ruleValues;
-        // updatedRule[field] = newValue;
-        // this.props.onUpdateRule(this.props.ruleId, updatedRule);
         this.setState((state) => {
-            state.fieldValues[field] = newValue;
+            if (!state.fieldValues[field]) {
+                state.fieldValues[field] = {};
+            }
+            state.fieldValues[field]["value"] = newValue;
+        });
+    }
+
+    onSourceChange(field, newSource) {
+        this.setState((state) => {
+            if (!state.fieldValues[field]) {
+                state.fieldValues[field] = {};
+            }
+            state.fieldValues[field]['source'] = newSource;
         });
     }
 
@@ -26,12 +40,44 @@ class SubmissionRuleEditor extends Component {
 
     render() {
         let fields = this.props.rule.getEditFields().map((field) => {
-            // let value = this.props.ruleValues[field.name] || "";
-            let value = this.state.fieldValues[field.name] || "";
+            let value = "";
+            let source = "Hardcode";
+
+            if (this.state.fieldValues[field.name]) {
+                value = this.state.fieldValues[field.name].value || "";
+                source = this.state.fieldValues[field.name].source || "Hardcode";
+            }
+            let fieldName = field.name + "-source";
+
+            let sourceOptions = ["Hardcode", "From Field", "From Script"].map((item) => {
+                let idSuffix = item.replace(' ', '').toLowerCase();
+                return  <label className="radio-inline" key={fieldName + '-' + idSuffix}>
+                            <input type="radio" 
+                                   checked={item === source} 
+                                   name={fieldName} 
+                                   id={fieldName + '-' + idSuffix} 
+                                   onChange={(e) => this.onSourceChange(field.name, e.target.value)}
+                                   value={item} /> {item}
+                        </label>
+            });
+            let SubmissionRuleField = undefined;
+            if (source === "From Field") {
+                SubmissionRuleField = SubmissionRuleFromField;
+            } else if (source === "From Script") {
+                SubmissionRuleField = SubmissionRuleFromScript;
+            } else {
+                SubmissionRuleField = SubmissionRuleHardcodeField;
+            }
+
+
             return  <tr key={field.name}>
                         <td><label>{field.name}</label></td>
                         <td>
-                            <input type="text" className="form-control" value={value} onChange={(e) => this.onRuleUpdate(field.name, e.target.value)} />
+                            <div className="field-source">
+                                {sourceOptions}
+                            </div>
+
+                            <SubmissionRuleField formFields={this.props.formFields} value={value} fieldName={field.name} onUpdate={this.onRuleUpdate} />
                         </td>
                     </tr>;
         });
