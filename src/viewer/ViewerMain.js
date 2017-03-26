@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import FormManager from '../editor/lib/FormManager';
 import FormRenderer from '../editor/containers/FormRenderer';
 import Tessitura from '../lib/Tessitura';
+import FormSubmissionCompiler from '../lib/FormSubmissionCompiler';
 
 class ViewerMain extends Component {
 
@@ -62,12 +63,20 @@ class ViewerMain extends Component {
         
         let tessituraClient = new Tessitura(this.proxyUrl + "/tessitura/" + this.clientName, sessionKey);
 
+        let fieldIdToNameMap = {}; 
+        this.state.formData.fields.forEach((field) => {
+            fieldIdToNameMap[field.id] = field.label;
+        });
+
+        let submissionCompiler = new FormSubmissionCompiler(fieldIdToNameMap);
+
         formRefs.submitBtn.setAttribute("disabled", "disabled");
         let submissionRequests = [];
 
         let hasSentEmail = false; // Flag to prevent email call being run more than once
         let redirectHandler = null;
         let redirectConfig = null;
+
         this.state.formData.submissionHandlers.forEach((handlerConfig) => {
             let handlerName = handlerConfig.name;
             if (handlerName === "Email") {
@@ -85,12 +94,16 @@ class ViewerMain extends Component {
                 redirectHandler = handler;
                 redirectConfig = handlerConfig;
             } else {
-                submissionRequests.push(handler.handleSubmission(handlerConfig.options, this.state.formValues))
+                let compiledData = submissionCompiler.compile(handlerConfig.options, this.state.formValues);
+                submissionRequests.push(handler.handleSubmission(compiledData, handlerConfig.options, this.state.formValues))
             }
         });
         axios.all(submissionRequests).then((response) => {
             if (redirectHandler) {
-                redirectHandler.handleSubmission(redirectConfig.options, this.state.formValues);
+                console.log(redirectConfig.options);
+                let compiledData = submissionCompiler.compile(redirectConfig.options, this.state.formValues);
+                console.log(compiledData);
+                redirectHandler.handleSubmission(compiledData, redirectConfig.options, this.state.formValues);
             } else {
                 formRefs.submitBtn.removeAttribute("disabled");
                 this.setState({hasSubmitted: true});

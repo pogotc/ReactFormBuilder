@@ -16,7 +16,7 @@ class Email {
         return "Email";
     }
 
-    handleSubmission(options, formData) {
+    handleSubmission(compiledData, options, formData) {
         let proxyUrl = this.proxyUrl + "/formbuilder/" + this.clientName;
 
         let payload = {

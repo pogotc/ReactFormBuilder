@@ -12,7 +12,7 @@ class CustomerServiceIssue {
         return "Customer Service Issue";
     }
 
-    handleSubmission(params, formData) {
+    handleSubmission(compiledData, params, formData) {
         params['Notes'] = this.formDataToString(formData);
         return this.tessituraClient.sendCustomerServiceIssue(params);
     }

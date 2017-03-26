@@ -15,9 +15,9 @@ class AddContribution {
         return "Add Contribution";
     }
 
-    handleSubmission(params, formData) {
-        let amount = params['Amount'];
-        let fundId = params['Fund ID'];
+    handleSubmission(compiledData, params, formData) {
+        let amount = compiledData['Amount'];
+        let fundId = compiledData['Fund ID'];
         return this.tessituraClient.addContribution(amount, fundId);
     }
 
