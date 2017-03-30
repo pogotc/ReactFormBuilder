@@ -20,6 +20,7 @@ class FormSettings extends Component {
                         value={this.props.formData.description || ""} 
                         onChange={(e) => this.props.handleFormSettingUpdate("description", e.target.value)}/> 
                 </div>
+                <hr />
                 <div className="form-group">
                     <label>Confirmation Page Heading</label>
                     <input type="text" 
