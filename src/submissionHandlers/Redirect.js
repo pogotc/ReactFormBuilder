@@ -15,8 +15,8 @@ class Redirect {
         return "URL Redirect";
     }
 
-    handleSubmission(params, formData) {
-        let url = params['URL'];
+    handleSubmission(compiledData, params, formData) {
+        let url = compiledData['URL'];
         window.location = url;
     }
 
