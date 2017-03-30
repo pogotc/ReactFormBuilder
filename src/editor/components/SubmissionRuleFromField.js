@@ -15,7 +15,7 @@ class SubmissionRuleFromField extends Component {
                     type="text" 
                     className="form-control" 
                     value={this.props.value} 
-                    onChange={(e) => this.props.onUpdate(this.props.fieldName, e.target.value)} 
+                    onChange={(e) => this.props.onUpdate(this.props.field.name, e.target.value)} 
                 >
                 {choices}
                 </select>
@@ -24,7 +24,7 @@ class SubmissionRuleFromField extends Component {
 
 SubmissionRuleFromField.propTypes = {
   value: React.PropTypes.string.isRequired,
-  fieldName: React.PropTypes.string.isRequired,
+  field: React.PropTypes.object.isRequired,
   onUpdate: React.PropTypes.func.isRequired
 };
 

@@ -19,7 +19,7 @@ class CustomerServiceIssue {
 
     getEditFields() {
         return [
-            {name: "ContactMethod"},
+            {name: "ContactMethod", choices: {1: "One", 2: "Two"}},
             {name: "Category"},
             {name: "ActivityType"},
             {name: "Origin"},
