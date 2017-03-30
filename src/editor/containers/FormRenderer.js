@@ -63,9 +63,19 @@ class FormRenderer extends Component {
             formFields.push(<button ref="submitBtn" className="btn btn-primary" key="submit-btn">Submit</button>);
         }
 
+        let formDescription = this.props.formData.description || undefined;
+
+        if (formDescription) {
+            function getMarkup(markup) {
+                return {__html: markup.replace(/\n/g, "<br>")};
+            }
+            formDescription = <div dangerouslySetInnerHTML={getMarkup(formDescription)} />
+        }
+
         return (
             <div>
                 <h2 className={this.props.selectFormName ? 'selected' : ''} onClick={this.handleFormNameClick}>{this.props.formData.name}</h2>
+                {formDescription}
                 <form onSubmit={(e) => {this.props.onFormSubmit(e, this.refs)}}>
                     { formFields }
 
