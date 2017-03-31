@@ -75,6 +75,23 @@ class Tessitura {
         }
         return axios.post(this.proxyUrl, payload);
     }
+
+    addOrderComment(comment, lineItemID, lineItemType, customerNo, categoryNo) {
+        let params = {
+            'SessionKey': this.sessionKey,
+            'Comment': comment,
+            'LineItemID': lineItemID,
+            'LineItemType': lineItemType,
+            'CustomerNo': customerNo,
+            'CategoryNo': categoryNo
+        }
+        let payload = {
+            "method":"AddOrderCommentsEx2",
+            "params": params,
+            "id": null
+        }
+        return axios.post(this.proxyUrl, payload);
+    }
 }
 
 export default Tessitura;

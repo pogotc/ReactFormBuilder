@@ -76,7 +76,7 @@ class ViewerMain extends Component {
         this.state.formData.fields.forEach((field) => {
             fieldIdToNameMap[field.id] = field.label;
         });
-
+        console.log(fieldIdToNameMap);
         let submissionCompiler = new FormSubmissionCompiler(fieldIdToNameMap);
 
         formRefs.submitBtn.setAttribute("disabled", "disabled");
