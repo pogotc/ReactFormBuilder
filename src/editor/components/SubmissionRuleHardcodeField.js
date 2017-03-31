@@ -13,12 +13,10 @@ class SubmissionRuleHardcodeField extends Component {
     renderFieldChoices() {
         let options = [];
         
-        for (var val in this.props.field.choices){
-            if (this.props.field.choices.hasOwnProperty(val)) {
-                let label = this.props.field.choices[val];
-                options.push(<option key={val} value={val}>{label}</option>);
-            }
-        }
+        options = this.props.field.choices.map((field) => {
+                return <option key={field.value} value={field.value}>{field.label}</option>;
+            });
+
         return <select 
                     className="form-control"
                     value={this.props.value} 
@@ -36,7 +34,6 @@ class SubmissionRuleHardcodeField extends Component {
 }
 
 SubmissionRuleHardcodeField.propTypes = {
-  value: React.PropTypes.string.isRequired,
   field: React.PropTypes.object.isRequired,
   onUpdate: React.PropTypes.func.isRequired
 };
