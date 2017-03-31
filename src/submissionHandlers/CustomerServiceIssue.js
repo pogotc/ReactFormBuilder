@@ -13,8 +13,12 @@ class CustomerServiceIssue {
     }
 
     handleSubmission(compiledData, params, formData) {
-        params['Notes'] = this.formDataToString(formData);
-        return this.tessituraClient.sendCustomerServiceIssue(params);
+        compiledData['Notes'] = this.formDataToString(formData);
+        compiledData['Urgent'] = compiledData['Urgent'].toLowerCase() === "true" ? "true" : "false";
+        compiledData['Category'] = parseInt(compiledData['Category'], 10); //can probably remove
+        compiledData['PerformanceNumber'] = compiledData['PerformanceNumber'] || 0;
+        compiledData['PackageNumber'] = compiledData['PackageNumber'] || 0;
+        return this.tessituraClient.sendCustomerServiceIssue(compiledData);
     }
 
     getEditFields(referenceData, currentValues) {
@@ -70,6 +74,13 @@ class CustomerServiceIssue {
         }).sort((a, b) => {
             return a.label > b.label ? 1 : -1;
         });
+
+        // Prepend --select-- options
+        contactMethodChoices.unshift({value: "", label: "--Select--"});
+        categoryChoices.unshift({value: "", label: "--Select--"});
+        activityChoices.unshift({value: "", label: "--Select--"});
+        originChoices.unshift({value: "0", label: "No Origin"});
+        originChoices.unshift({value: "", label: "--Select--"});
 
         return [
             {name: "ContactMethod", choices: contactMethodChoices},

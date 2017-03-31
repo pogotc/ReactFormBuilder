@@ -56,6 +56,25 @@ class Tessitura {
         }
         return axios.post(this.proxyUrl, payload);
     }
+
+    reserveTickets(perfId, priceType, numSeats, zone) {
+        let priceTypes = [];
+        for (var i = 0; i < numSeats; i++){ priceTypes.push(priceType);}
+        let params = {
+            'sWebSessionID': this.sessionKey,
+            'sPriceType': priceTypes.join(","),
+            'iPerformanceNumber': perfId,
+            'iNumberOfSeats': numSeats,
+            'iZone': zone,
+            'sSpecialRequests': ''
+        }
+        let payload = {
+            "method":"ReserveTicketsEx",
+            "params": params,
+            "id": null
+        }
+        return axios.post(this.proxyUrl, payload);
+    }
 }
 
 export default Tessitura;

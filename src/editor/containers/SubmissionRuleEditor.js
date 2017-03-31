@@ -21,6 +21,12 @@ class SubmissionRuleEditor extends Component {
                 state.fieldValues[field] = {};
             }
             state.fieldValues[field]["value"] = newValue;
+
+            // this.props.rule.getEditFields(this.props.referenceData, state.fieldValues).forEach((editField) => {
+            //     if (field !== editField.name && editField.choices) {
+            //         state.fieldValues[editField.name]["value"] = editField.choices[0]['value'];
+            //     }
+            // });
         });
     }
 
@@ -34,6 +40,7 @@ class SubmissionRuleEditor extends Component {
     }
 
     saveChanges() {
+
         this.props.onUpdateRule(this.props.ruleId, this.state.fieldValues);
         this.props.onGoBack();
     }

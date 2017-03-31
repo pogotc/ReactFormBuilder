@@ -16,8 +16,8 @@ class AddAttribute {
     }
 
     handleSubmission(compiledData, params, formData) {
-        let keywordID = params['Keyword ID'];
-        let value = params['Value'];
+        let keywordID =compiledData['Keyword ID'];
+        let value = compiledData['Value'];
         return this.tessituraClient.addAttribute(keywordID, value);
     }
 

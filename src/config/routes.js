@@ -19,10 +19,16 @@ let applicationConfig = {
 			"loginUrl": "https://tickets.masseyhallroythomsonhall.com/account/login.aspx",
 			"cookieDomain": ".masseyhallroythomsonhall.com"
 		}
+    },
+	"forms.blocksoffice.devspace.net": {
+        "proxyUrl": "https://tessituraproxy.site",
+	    "client": "made1",
+	    "s3base": "https://s3-eu-west-1.amazonaws.com/made-dev/formbuilder",
+		"css-prefix": "container"
     }
 };
 let appConfig = {};
-let appHostname = "forms.masseyhallroythomsonhall.com";//window.location.hostname;
+let appHostname = window.location.hostname;
 
 for (let domain in applicationConfig) {
 	if (appHostname === domain) {
