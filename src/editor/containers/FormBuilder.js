@@ -19,13 +19,21 @@ class FormBuilder extends Component {
             activeControlPanelTab: "AddField",
             fieldBeingEdited: {label: ""},
             isSaving: false,
-            showSubmissionRulesPanel: false
+            showSubmissionRulesPanel: false,
+            referenceData: {}
         }
         
         let appConfig = props.route.appConfig;
         let proxyUrl = appConfig.proxyUrl;
         let client = appConfig.client;        
         this.formManager = new FormManager(proxyUrl + "/formbuilder/" + client, appConfig.s3base, client);
+        this.formManager.getReferenceData()
+        .then((response) => {
+            this.setState((state) => {
+                state.referenceData = response.data.result;
+            });
+        });
+
 
         this.markFieldAsBeingEdited = this.markFieldAsBeingEdited.bind(this);
         this.startEditingElement = this.startEditingElement.bind(this);
@@ -221,6 +229,7 @@ class FormBuilder extends Component {
                     <SubmissionRules 
                         enabled={this.state.showSubmissionRulesPanel} 
                         formData={this.state.formData}
+                        referenceData={this.state.referenceData}
                         onClose={() => this.setState({showSubmissionRulesPanel: false})}
                         onSubmissionRuleUpdate={(updatedRules) => {
                             this.handleFormSettingUpdate("submissionHandlers", updatedRules)

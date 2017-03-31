@@ -168,6 +168,7 @@ class SubmissionRules extends Component {
                 rule={rule}
                 ruleId={this.state.ruleBeingEdited}
                 ruleValues={ruleValues} 
+                referenceData={this.props.referenceData}
                 formFields={this.props.formData.fields}
                 onGoBack={() => this.setState({view: "list"})}
                 onUpdateRule={this.handleUpdateRule}

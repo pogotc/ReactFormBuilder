@@ -38,15 +38,31 @@ class SubmissionRuleEditor extends Component {
         this.props.onGoBack();
     }
 
+    componentWillMount() {
+        this.props.rule.getEditFields(this.props.referenceData, this.state.fieldValues).forEach((field) => {
+            if (!this.state.fieldValues[field.name]) {
+                this.setState((state) => {
+                    let value = field.choices ? field.choices[0]['value'] : "";
+                    state.fieldValues[field.name] = {};
+                    state.fieldValues[field.name].value = value;
+                    state.fieldValues[field.name].source = "Hardcode";
+                });
+            }
+        });
+    }
+
     render() {
-        let fields = this.props.rule.getEditFields().map((field) => {
+        let fields = this.props.rule.getEditFields(this.props.referenceData, this.state.fieldValues).map((field) => {
             let value = "";
             let source = "Hardcode";
 
             if (this.state.fieldValues[field.name]) {
-                value = this.state.fieldValues[field.name].value || "";
-                source = this.state.fieldValues[field.name].source || "Hardcode";
+                value = this.state.fieldValues[field.name].value;
+                source = this.state.fieldValues[field.name].source;
+            } else {
+                value = field.choices ? field.choices[0]['value'] : "";
             }
+            
             let fieldName = field.name + "-source";
 
             let sourceOptions = ["Hardcode", "From Field", "From Script"].map((item) => {
@@ -77,7 +93,7 @@ class SubmissionRuleEditor extends Component {
                                 {sourceOptions}
                             </div>
 
-                            <SubmissionRuleField formFields={this.props.formFields} value={value} fieldName={field.name} onUpdate={this.onRuleUpdate} />
+                            <SubmissionRuleField formFields={this.props.formFields} value={value} field={field} onUpdate={this.onRuleUpdate} />
                         </td>
                     </tr>;
         });

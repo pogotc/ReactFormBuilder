@@ -67,6 +67,15 @@ class FormManager {
         return axios.post(this.proxyUrl, payload);
     }
 
+    getReferenceData() {
+        let payload = {
+            "method": "getreferencedata",
+            "params": {},
+	        "id": null
+        }
+        return axios.post(this.proxyUrl, payload);
+    }
+
     prepareData(data) {
         let dataCopy = JSON.parse(JSON.stringify(data));
         dataCopy.fields = dataCopy.fields.map((field) => {
