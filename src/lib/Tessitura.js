@@ -1,4 +1,3 @@
-import axios from 'axios';
 
 class Tessitura {
 
@@ -17,8 +16,7 @@ class Tessitura {
             "params": params,
             "id": null
         }
-
-        return axios.post(this.proxyUrl, payload);
+        return payload;
     }
 
     addAttribute(keywordId, value) {
@@ -34,10 +32,9 @@ class Tessitura {
         let payload = {
             "method":"UpdateConstituentAttributes",
             "params": params,
-            "id": null
+            "provider": "soap"
         }
-
-        return axios.post(this.proxyUrl, payload);
+        return payload;
     }
 
     addContribution(amount, fund, accountMethod, upgrade, renew) {
@@ -52,9 +49,9 @@ class Tessitura {
         let payload = {
             "method":"AddContribution",
             "params": params,
-            "id": null
+            "provider": "soap"
         }
-        return axios.post(this.proxyUrl, payload);
+        return payload;
     }
 
     reserveTickets(perfId, priceType, numSeats, zone) {
@@ -71,9 +68,9 @@ class Tessitura {
         let payload = {
             "method":"ReserveTicketsEx",
             "params": params,
-            "id": null
+            "provider": "soap"
         }
-        return axios.post(this.proxyUrl, payload);
+        return payload;
     }
 
     addOrderComment(comment, lineItemID, lineItemType, customerNo, categoryNo) {
@@ -88,9 +85,9 @@ class Tessitura {
         let payload = {
             "method":"AddOrderCommentsEx2",
             "params": params,
-            "id": null
+            "provider": "soap"
         }
-        return axios.post(this.proxyUrl, payload);
+        return payload;
     }
 }
 

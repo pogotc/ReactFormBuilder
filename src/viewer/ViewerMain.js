@@ -76,7 +76,7 @@ class ViewerMain extends Component {
         this.state.formData.fields.forEach((field) => {
             fieldIdToNameMap[field.id] = field.label;
         });
-        console.log(fieldIdToNameMap);
+        
         let submissionCompiler = new FormSubmissionCompiler(fieldIdToNameMap);
 
         formRefs.submitBtn.setAttribute("disabled", "disabled");
@@ -107,15 +107,24 @@ class ViewerMain extends Component {
                 submissionRequests.push(handler.handleSubmission(compiledData, handlerConfig.options, this.state.formValues))
             }
         });
-        axios.all(submissionRequests).then((response) => {
-            if (redirectHandler) {
-                let compiledData = submissionCompiler.compile(redirectConfig.options, this.state.formValues);
-                redirectHandler.handleSubmission(compiledData, redirectConfig.options, this.state.formValues);
-            } else {
-                formRefs.submitBtn.removeAttribute("disabled");
-                this.setState({hasSubmitted: true});
-            }
-        });
+        
+        let payload = {
+	        "method": "submitform",
+	        "params": {
+		        "requests": submissionRequests
+            },
+            id: null
+        }
+        axios.post(this.proxyUrl + "/formbuilder/" + this.clientName, payload)
+            .then((response) => {
+                if (redirectHandler) {
+                    let compiledData = submissionCompiler.compile(redirectConfig.options, this.state.formValues);
+                    redirectHandler.handleSubmission(compiledData, redirectConfig.options, this.state.formValues);
+                } else {
+                    formRefs.submitBtn.removeAttribute("disabled");
+                    this.setState({hasSubmitted: true});
+                }
+            });
     }
 
     handleFieldUpdate(fieldName, value) {
