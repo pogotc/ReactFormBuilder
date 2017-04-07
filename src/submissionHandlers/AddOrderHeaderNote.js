@@ -1,5 +1,5 @@
 
-class AddAttribute {
+class AddOrderHeaderNote {
 
     tessituraClient;
     clientName;
@@ -12,21 +12,24 @@ class AddAttribute {
     }
 
     getFriendlyName() {
-        return "Add Attribute";
+        return "Add Order Header Note";
     }
 
     handleSubmission(compiledData, params, formData) {
-        let keywordID =compiledData['Keyword ID'];
-        let value = compiledData['Value'];
-        return this.tessituraClient.addAttribute(keywordID, value);
+        let comment = compiledData['Comment']
+        let lineItemID = 0;
+        let lineItemType = "O";
+        let customerNo = 0;
+        let categoryNo = 0;
+
+        return this.tessituraClient.addOrderComment(comment, lineItemID, lineItemType, customerNo, categoryNo);
     }
 
     getEditFields() {
         return [
-            {name: "Keyword ID"},
-            {name: "Value"}
+            {name: "Comment"}
         ]
     }
 }
 
-export default AddAttribute;
+export default AddOrderHeaderNote;

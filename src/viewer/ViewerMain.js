@@ -33,8 +33,17 @@ class ViewerMain extends Component {
         this.handleFormSubmission = this.handleFormSubmission.bind(this);
 
         require('../themes/' + this.clientName + '/styles.css');
-        this.Header = require('../themes/' + this.clientName + '/header').default; 
-        this.Footer = require('../themes/' + this.clientName + '/footer').default; 
+
+        try {
+            this.Header = require('../themes/' + this.clientName + '/header').default; 
+        } catch (e) {
+            this.Header = undefined;
+        }
+        try {
+            this.Footer = require('../themes/' + this.clientName + '/footer').default; 
+        } catch (e) { 
+            this.Footer = undefined;
+        }
     }
 
     componentDidMount() {
@@ -67,7 +76,7 @@ class ViewerMain extends Component {
         this.state.formData.fields.forEach((field) => {
             fieldIdToNameMap[field.id] = field.label;
         });
-
+        
         let submissionCompiler = new FormSubmissionCompiler(fieldIdToNameMap);
 
         formRefs.submitBtn.setAttribute("disabled", "disabled");
@@ -98,15 +107,24 @@ class ViewerMain extends Component {
                 submissionRequests.push(handler.handleSubmission(compiledData, handlerConfig.options, this.state.formValues))
             }
         });
-        axios.all(submissionRequests).then((response) => {
-            if (redirectHandler) {
-                let compiledData = submissionCompiler.compile(redirectConfig.options, this.state.formValues);
-                redirectHandler.handleSubmission(compiledData, redirectConfig.options, this.state.formValues);
-            } else {
-                formRefs.submitBtn.removeAttribute("disabled");
-                this.setState({hasSubmitted: true});
-            }
-        });
+        
+        let payload = {
+	        "method": "submitform",
+	        "params": {
+		        "requests": submissionRequests
+            },
+            id: null
+        }
+        axios.post(this.proxyUrl + "/formbuilder/" + this.clientName, payload)
+            .then((response) => {
+                if (redirectHandler) {
+                    let compiledData = submissionCompiler.compile(redirectConfig.options, this.state.formValues);
+                    redirectHandler.handleSubmission(compiledData, redirectConfig.options, this.state.formValues);
+                } else {
+                    formRefs.submitBtn.removeAttribute("disabled");
+                    this.setState({hasSubmitted: true});
+                }
+            });
     }
 
     handleFieldUpdate(fieldName, value) {
@@ -124,12 +142,14 @@ class ViewerMain extends Component {
         }
 
         let cssPrefix = this.appConfig['css-prefix'];
+        let Header = this.Header !== undefined ? <this.Header /> : undefined;
+        let Footer = this.Footer !== undefined ? <this.Footer /> : undefined;
         return <div className={cssPrefix}>
-                    <this.Header />
+                    {Header}
                     <div className="form-view">
                         {content}
                     </div>
-                    <this.Footer />
+                    {Footer}
                 </div>
     }
 

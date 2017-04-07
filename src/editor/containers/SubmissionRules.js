@@ -4,7 +4,7 @@ import SubmissionRuleEditor from './SubmissionRuleEditor';
 
 class SubmissionRules extends Component {
 
-    ruleClassNames = ["AddAttribute", "AddContribution", "Email", "CustomerServiceIssue", "Redirect"];
+    ruleClassNames = ["AddAttribute", "AddContribution", "AddOrderHeaderNote", "Email", "CustomerServiceIssue", "Redirect", "ReserveTickets"];
     rules = [];
 
     constructor(props) {
