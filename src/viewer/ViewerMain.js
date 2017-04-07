@@ -113,7 +113,7 @@ class ViewerMain extends Component {
 	        "params": {
 		        "requests": submissionRequests
             },
-            id: null
+            id: this.props.params.id
         }
         axios.post(this.proxyUrl + "/formbuilder/" + this.clientName, payload)
             .then((response) => {
