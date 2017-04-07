@@ -26,8 +26,7 @@ class Email {
             },
             "id": options._formid
         };
-
-        return axios.post(proxyUrl, payload);
+        return payload;
     }
 
     getEditFields() {
