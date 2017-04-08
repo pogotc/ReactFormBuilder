@@ -1,13 +1,10 @@
-import axios from 'axios';
 
 class Email {
 
-    proxyUrl;
     tessituraClient;
     clientName;
 
     constructor(proxyUrl, tessituraClient, clientName) {
-        this.proxyUrl = proxyUrl;
         this.tessituraClient = tessituraClient;
         this.clientName = clientName;
     }
@@ -17,7 +14,6 @@ class Email {
     }
 
     handleSubmission(compiledData, options, formData) {
-        let proxyUrl = this.proxyUrl + "/formbuilder/" + this.clientName;
 
         let payload = {
             "method":"sendemail",

@@ -37,6 +37,22 @@ class Tessitura {
         return payload;
     }
 
+    UpdateConstituency(constituencyNo, iN1N2Ind, cAction) {
+        let params = {
+            'sSessionKey': this.sessionKey,
+            'iConstituencyNo': constituencyNo,
+            'action': cAction || 'A',
+            'iN1N2Ind': iN1N2Ind || 3
+        };
+
+        let payload = {
+            "method":"UpdateConstituency",
+            "params": params,
+            "provider": "soap"
+        }
+        return payload;
+    }
+
     addContribution(amount, fund, accountMethod, upgrade, renew) {
         let params = {
             'sWebSessionID': this.sessionKey,

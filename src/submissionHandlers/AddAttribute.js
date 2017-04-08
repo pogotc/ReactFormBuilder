@@ -21,9 +21,19 @@ class AddAttribute {
         return this.tessituraClient.addAttribute(keywordID, value);
     }
 
-    getEditFields() {
+    getEditFields(referenceData) {
+        let attributesData = referenceData['Attributes'] || [];
+        let attributes = [];
+        attributes = attributesData.map((attribute) => {
+            return {value: attribute.Id, label: attribute.Description};
+        }).sort((a, b) => {
+            return a.label > b.label ? 1 : -1;
+        });
+        attributes.unshift({value: "", label: "--Select--"});
+
+
         return [
-            {name: "Keyword ID"},
+            {name: "Keyword ID", choices: attributes},
             {name: "Value"}
         ]
     }
