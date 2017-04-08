@@ -20,9 +20,18 @@ class AddConstituency {
         return this.tessituraClient.UpdateConstituency(constituency);
     }
 
-    getEditFields() {
+    getEditFields(referenceData) {
+        let constituenciesData = referenceData['ConstituencyTypes'] || [];
+        let constituencies = [];
+        constituencies = constituenciesData.map((constituency) => {
+            return {value: constituency.Id, label: constituency.Description};
+        }).sort((a, b) => {
+            return a.label > b.label ? 1 : -1;
+        });
+        constituencies.unshift({value: "", label: "--Select--"});
+
         return [
-            {name: "Constituency"}
+            {name: "Constituency", choices: constituencies}
         ]
     }
 }
