@@ -1,14 +1,14 @@
 import React from 'react';
 import FormComponent from './FormComponent';
 
-class RadioButtonList extends FormComponent {
+class MultipleChoice extends FormComponent {
 
     getFriendlyName() {
-        return "Radio Buttons";
+        return "Multiple Choice";
     }
 
     getGlyphiconName() {
-        return "glyphicon-triangle-bottom";
+        return "glyphicon-record";
     }
 
     render() {
@@ -59,4 +59,4 @@ let fieldOptions = {
 
 export {fieldOptions};
 
-export default RadioButtonList;
+export default MultipleChoice;

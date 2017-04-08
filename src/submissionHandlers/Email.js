@@ -35,7 +35,11 @@ class Email {
         let dataParts = [];
         for (let fieldName in formData) {
             if (formData.hasOwnProperty(fieldName)) {
-                dataParts.push(fieldName + ": " + formData[fieldName]);
+                let fieldValue = formData[fieldName];
+                if (typeof(fieldValue) === "object") {
+                    fieldValue = [...fieldValue].join(", ");
+                }
+                dataParts.push(fieldName + ": " + fieldValue);
             }
         }
         return dataParts.join("\n");
