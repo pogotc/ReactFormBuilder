@@ -8,7 +8,7 @@ import FormSubmissionCompiler from '../lib/FormSubmissionCompiler';
 
 class ViewerMain extends Component {
 
-    availableFieldTypes = ["TextField", "TextArea", "Select"];
+    availableFieldTypes = ["TextField", "TextArea", "Select", "MultipleChoice", "Checkboxes"];
     formManager;
     proxyUrl;
     clientName;
