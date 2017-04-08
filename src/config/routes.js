@@ -23,7 +23,7 @@ let applicationConfig = {
 		}
     },
 	"forms.blocksoffice.devspace.net": {
-        "proxyUrl": "https://tessituraproxy.site",
+        "proxyUrl": "https://formbuilder-proxy.devspace.net",
 	    "client": "made1",
 	    "s3base": "https://s3-eu-west-1.amazonaws.com/made-dev/formbuilder",
 		"css-prefix": "container"
