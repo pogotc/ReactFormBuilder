@@ -1,4 +1,5 @@
 import axios from 'axios';
+let Auth = require('../Auth').default;
 
 class FormManager {
 
@@ -31,7 +32,10 @@ class FormManager {
             "params": {},
             "id": null
         }
-        return axios.post(this.proxyUrl, payload)
+        let config = {
+            auth: Auth.getAuthHeader()
+        }
+        return axios.post(this.proxyUrl, payload, config)
             .then((response) => {
                 let fetchRequests = response.data.result.map((url) => {
                     let id = this.parseIdFromUrl(url);
@@ -64,7 +68,10 @@ class FormManager {
             },
             "id": id
         }
-        return axios.post(this.proxyUrl, payload);
+        let config = {
+            auth: Auth.getAuthHeader()
+        }
+        return axios.post(this.proxyUrl, payload, config);
     }
 
     getReferenceData() {
@@ -73,7 +80,10 @@ class FormManager {
             "params": {},
 	        "id": null
         }
-        return axios.post(this.proxyUrl, payload);
+        let config = {
+            auth: Auth.getAuthHeader()
+        }
+        return axios.post(this.proxyUrl, payload, config);
     }
 
     prepareData(data) {

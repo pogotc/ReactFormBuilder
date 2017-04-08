@@ -73,9 +73,7 @@ class TNEWViewer extends Component {
             expires = "; expires=" + date.toUTCString();
         }
         document.cookie = name + "=" + value + expires + "; path=/; domain=" + this.cookieDomain;
-        console.log(name + "=" + value + expires + "; path=/; domain=" + this.cookieDomain);
     }
-
 
     fetchSessionKeyForUser(cookieVal) {
         var payload = {
